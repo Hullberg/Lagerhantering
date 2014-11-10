@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <strings.h>
+#include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
 
@@ -60,6 +61,14 @@ char* ask_string_question(char* question) {
   return reply;
 }
 
+char* whatName(char* question) {
+  printf("Enter the name of the product to, %s: ", question);
+  char buffer[128];
+  fgets(buffer, 128, stdin);
+  char* reply = strdup(buffer);
+  return reply;
+}
+
 
 // Asks the user to name a number.
 int ask_int_question (char* question) {
@@ -89,7 +98,7 @@ char ask_char_question (char* question, char* alternative) {
 }
 
 void print_item (struct product_t product) {
-      printf("\nName: %sDescription: %sPlace: %sPrice: %d\nAmount: %d\n\n", product.name, product.description, product.place, product.price, product.amount );
+  printf("\nName: %sDescription: %sPlace: %sPrice: %d\nAmount: %d\n\n", product.name, product.description, product.place, product.price, product.amount);
     }
 
 
@@ -106,23 +115,21 @@ void add_to_db (db_t db, struct product_t product) {
   }
 }
 
-int positionOfProduct(db_t db, char* name) {
+int positionOfProduct(db_t db, char name1) {
   if(&db->amount != NULL){
-  
-    
     puts("hej");
   }
-  //printf("%d \n", db->amount);
-  int n = db->amount;
+  int n = (db->amount);
   //printf("%d \n", n);
   for (int i = 0; i <= n; i++) {
     //printf("%d", n);
-    if (strcmp(name, db->product[i].name) == 0){
+    if (strcmp(&name1, db->product[i].name) == 0){
       return i;
     }
   }
   return -1;
 }
+
 
 // Adds an item to the inventory.
 void add_item (db_t db) {
@@ -134,6 +141,7 @@ void add_item (db_t db) {
   product.amount = ask_int_question("Amount");
   
   print_item(product);
+  printf("Database-index: %d\n\n", db->amount);
 
   while(getchar() != '\n');
 
@@ -148,14 +156,13 @@ void add_item (db_t db) {
 
 // Remove an item from the inventory
 void remove_item (db_t db) {
-  char reply;
-  puts("Please enter the name of the product you wish to remove:");
-  scanf("%s", &reply);
-  if (positionOfProduct(db, &reply) == -1) {
+  char* reply = whatName("Remove");
+  //  printf("%d\n", &db->amount);
+  if (positionOfProduct(db, *reply) == -1) {
     puts("Product does not exist");
 }
   else{
-    int a = positionOfProduct(db, &reply);
+    int a = positionOfProduct(db, *reply);
     free(&db->product[a]);
 }
 
@@ -168,6 +175,7 @@ void print_db(db_t db) {
   for(int i = 0; i <= *n; i++){
     if (&db->product[i] != NULL){
     print_item(db->product[i]);
+    printf("Database-index: %d\n", (db->amount)-1);
     i++;
     }
   }
