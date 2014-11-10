@@ -95,10 +95,34 @@ void print_item (struct product_t product) {
 
 
 void add_to_db (db_t db, struct product_t product) {
-  db->product = malloc(sizeof(struct product_t));
-  db->product[db->amount++] = product;
+  if (db->amount == 0){
+    db->product = malloc(sizeof(struct product_t));
+    db->product[0] = product;
+    db->amount++;
+  }
+  else{
+    db->product = realloc(db->product, sizeof(struct product_t) * (++(db->amount)));
+    db->product[db->amount] = product;
+  }
 }
 
+int positionOfProduct(db_t db, char* name) {
+  if(&db->amount != NULL){
+  
+    
+    puts("hej");
+  }
+  //printf("%d \n", db->amount);
+  int n = db->amount;
+  //printf("%d \n", n);
+  for (int i = 0; i <= n; i++) {
+    //printf("%d", n);
+    if (strcmp(name, db->product[i].name) == 0){
+      return i;
+    }
+  }
+  return -1;
+}
 
 // Adds an item to the inventory.
 void add_item (db_t db) {
@@ -122,13 +146,32 @@ void add_item (db_t db) {
   }
 }
 
+// Remove an item from the inventory
+void remove_item (db_t db) {
+  char reply;
+  puts("Please enter the name of the product you wish to remove:");
+  scanf("%s", &reply);
+  if (positionOfProduct(db, &reply) == -1) {
+    puts("Product does not exist");
+}
+  else{
+    int a = positionOfProduct(db, &reply);
+    free(&db->product[a]);
+}
+
+
+}
+
 
 void print_db(db_t db) {
-  int i = 0;
-  while(&db->product[i] != NULL){
+  int* n = &db->amount;
+  for(int i = 0; i <= *n; i++){
+    if (&db->product[i] != NULL){
     print_item(db->product[i]);
     i++;
+    }
   }
+  puts("End of Database\n");
 }
 
 
@@ -144,26 +187,26 @@ int main (void){
       add_item(db1);
       break;
 
-      /*     // Remove
+      // Remove
     case 'r':
-
+      remove_item(db1);
       break;
-
+      
       // Edit
     case 'e':
-
+      puts("Not implemented yet");
       break;
-
+      
       // Undo
     case 'u':
-
-    break;*/
-
+      puts("Not implemented yet");
+      break;
+      
       // Print
     case 'p':
       print_db(db1);
-    break;
-
+      break;
+      
       // Quit
     case 'q':
       if (ask_char_question("Do you wish to exit the programme?", "YyNn") == 'y') {
