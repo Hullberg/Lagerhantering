@@ -125,8 +125,8 @@ int positionOfProduct(db_t db, char* name1) {
 
   for (int i = 0; i <= n; i++) {
     if (strcmp(name1, db->product[i].name) == 0){
-      return i;
       printf("%d\n", i);
+      return i;
     }
   }
   return -1;
@@ -165,7 +165,7 @@ void remove_item (db_t db) {
 }
   else{
     int a = positionOfProduct(db, reply);
-    db->product[a] = NULL;   // HER IZ BIG ER0R. NO WORKY WORKY
+    free(&db->product[a]);
     puts("The product has been removed");
 }
 
@@ -174,12 +174,11 @@ void remove_item (db_t db) {
 
 
 void print_db(db_t db) {
-  int* n = &db->amount;
-  for(int i = 0; i <= *n; i++){
+  int n = db->amount;
+  for(int i = 0; i <= n; i++){
     if (&db->product[i] != NULL){
     print_item(db->product[i]);
-    printf("Database-index: %d\n\n", (db->amount)-1);
-    i++;
+    printf("Database-index: %d\n\n", i);
     }
   }
   puts("End of Database\n");
