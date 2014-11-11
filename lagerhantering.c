@@ -108,10 +108,27 @@ void add_to_db (db_t db, struct product_t product) {
     db->product = malloc(sizeof(struct product_t));
     db->product[0] = product;
     db->amount++;
+    printf("amount= %d", db->amount);
   }
   else{
-    db->product = realloc(db->product, sizeof(struct product_t) * (++(db->amount)));
-    db->product[db->amount] = product;
+
+    puts("ahllo");
+    db_t new = malloc(sizeof(struct db_t));
+    new->product = malloc(sizeof(struct product_t));
+    new->amount = db->amount;
+    puts("YEAH!");
+    new->product = realloc(db->product, (sizeof(struct product_t) * (++(new->amount))));
+    printf("amount= %d", db->amount);
+      new->product[new->amount] = product; 
+     puts("oh!");
+    if(&new->product == NULL){
+      puts("oops!");
+    }
+    else{  
+      puts("hallow!");
+      *db = *new;
+      
+      }
   }
 }
 
@@ -175,6 +192,7 @@ void remove_item (db_t db) {
 
 void print_db(db_t db) {
   int n = db->amount;
+  printf("Length of db: %d\n", n);
   for(int i = 0; i <= n; i++){
     if (&db->product[i] != NULL){
     print_item(db->product[i]);
