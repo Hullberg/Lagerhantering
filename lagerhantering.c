@@ -111,7 +111,6 @@ int positionOfProduct(db_t db, char* name1) {
   return -1;
 }
 
-
 // Adds an item to the inventory.
 void add_item (db_t db) {
   struct product_t product;
@@ -138,19 +137,21 @@ void add_item (db_t db) {
 // Remove an item from the inventory
 void remove_item (db_t db) {
   char* reply = whatName("remove");
-  //  printf("%d\n", &db->amount);
   if (positionOfProduct(db, reply) == -1) {
     puts("Product does not exist");
   }
   else{
     int a = positionOfProduct(db, reply);
-    printf("The product is at database-index: %d\n\n", a);
+    printf("The product is at database-index: %d\n", a);
+    printf("You wish to remove the product: %s", db->product[a].name);
     //db->product[a] = NULL;   // HER IZ BIG ER0R. NO WORKY WORKY
-    free(&db->product[a]);
-    puts("The product has been removed\n");
+    //free(&db->product[a]); 
+    for (int i = a; i < db->amount; i++){ // Thought it could look something like this..
+      db->product[i] = db->product[i+1];
+    }
+    puts("The product has not been removed yet, but we are working on something to actually remove it.\n");
   }
 }
-
 
 void print_db(db_t db) {
   if (db->amount == 0) {
@@ -168,7 +169,6 @@ void print_db(db_t db) {
     puts("End of Database\n");
   }
 }
-
 
 int main() {
   bool should_continue = true;
