@@ -8,8 +8,8 @@
 /*
 // Example: place A25
 struct place_t{
-  char shelf;
-  int number;
+char shelf;
+int number;
 };*/
 
 struct product_t {
@@ -43,15 +43,15 @@ void printMenu() {
 
 
 /*
-    char *
-    fgets(char * restrict str, int size, FILE * restrict stream);
+  char *
+  fgets(char * restrict str, int size, FILE * restrict stream);
 
-där stream skall vara stdin. 
+  där stream skall vara stdin. 
 
-Du bör läsa in i en buffert. Denna buffer är lämpligen en char
-array på stacken. När du har läst in, använd strdup för att 
-kopiera strängen till heapen. 
- */
+  Du bör läsa in i en buffert. Denna buffer är lämpligen en char
+  array på stacken. När du har läst in, använd strdup för att 
+  kopiera strängen till heapen. 
+*/
 // Asks the user to enter a valid string for the desired label of the product.
 char* ask_string_question(char* question) {
   printf("A string suited for the current label, %s: ", question);
@@ -90,16 +90,16 @@ char ask_char_question (char* question, char* alternative) {
   while(true) {
     char reply = getchar();
     while (getchar() != '\n');
-  if (strchr(alternative, reply)) {
-    return tolower(reply);
-  }
-  printf("Invalid answer, try [%s]\n", alternative);
+    if (strchr(alternative, reply)) {
+      return tolower(reply);
+    }
+    printf("Invalid answer, try [%s]\n", alternative);
   }
 }
 
 void print_item (struct product_t product) {
   printf("\nName: %sDescription: %sPlace: %sPrice: %d\nAmount: %d\n\n", product.name, product.description, product.place, product.price, product.amount);
-    }
+}
 
 
 
@@ -108,10 +108,27 @@ void add_to_db (db_t db, struct product_t product) {
     db->product = malloc(sizeof(struct product_t));
     db->product[0] = product;
     db->amount++;
+    printf("amount= %d", db->amount);
   }
   else{
-    db->product = realloc(db->product, sizeof(struct product_t) * (++(db->amount)));
-    db->product[db->amount] = product;
+
+    puts("ahllo");
+    db_t new = malloc(sizeof(struct db_t));
+    new->product = malloc(sizeof(struct product_t));
+    new->amount = db->amount;
+    puts("YEAH!");
+    new->product = realloc(db->product, (sizeof(struct product_t) * (++(new->amount))));
+    printf("amount= %d", db->amount);
+    new->product[new->amount] = product; 
+    puts("oh!");
+    if(&new->product == NULL){
+      puts("oops!");
+    }
+    else{  
+      puts("hallow!");
+      *db = *new;
+      
+    }
   }
 }
 
@@ -119,8 +136,8 @@ int positionOfProduct(db_t db, char* name1) {
   int n = (db->amount)-1;
   for (int i = 0; i <= n; i++) {
     if (strcmp(name1, db->product[i].name) == 0){
-      return i;
       printf("%d\n", i);
+      return i;
     }
   }
   return -1;
@@ -156,15 +173,14 @@ void remove_item (db_t db) {
   //  printf("%d\n", &db->amount);
   if (positionOfProduct(db, reply) == -1) {
     puts("Product does not exist");
-}
+  }
   else{
     int a = positionOfProduct(db, reply);
     printf("The product is at database-index: %d\n", a);
     //db->product[a] = NULL;   // HER IZ BIG ER0R. NO WORKY WORKY
+    free(&db->product[a]);
     puts("The product has been removed");
-}
-
-
+  }
 }
 
 
@@ -180,13 +196,21 @@ void print_db(db_t db) {
 	printf("Database-index: %d\n\n", i);
 	i++;
       }
+      int n = db->amount;
+      printf("Length of db: %d\n", n);
+      for(int i = 0; i <= n; i++){
+	if (&db->product[i] != NULL){
+	  print_item(db->product[i]);
+	  printf("Database-index: %d\n\n", i);
+	}
+	puts("End of Database\n");
+      }
     }
-    puts("End of Database\n");
   }
 }
 
 
-int main (void){
+int main() {
   bool should_continue = true;
   db_t db1 = malloc(sizeof(struct db_t));
   while (should_continue) {
