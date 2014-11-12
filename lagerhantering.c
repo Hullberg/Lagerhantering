@@ -142,14 +142,15 @@ void remove_item (db_t db) {
   }
   else{
     int a = positionOfProduct(db, reply);
-    printf("The product is at database-index: %d\n", a);
+    printf("The product is at database-index: %d\n", a+1);
     printf("You wish to remove the product: %s", db->product[a].name);
-    //db->product[a] = NULL;   // HER IZ BIG ER0R. NO WORKY WORKY
+    //db->product[a] = NULL;
     //free(&db->product[a]); 
     for (int i = a; i < db->amount; i++){ // Thought it could look something like this..
       db->product[i] = db->product[i+1];
     }
-    puts("The product has not been removed yet, but we are working on something to actually remove it.\n");
+    db->amount--;
+    puts("The product has been removed.\n");
   }
 }
 
@@ -159,7 +160,7 @@ void print_db(db_t db) {
   }
   else {
     int* n = &db->amount;
-    for(int i = 0; i <= *n; i++){
+    for(int i = 0; i < *n; i++){
       if(db->product[i].name == NULL){
 	
 }
@@ -169,6 +170,7 @@ void print_db(db_t db) {
       }
     }
     puts("End of Database\n");
+    printf("amount = %d\n", db->amount);
   }
 }
 
