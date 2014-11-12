@@ -90,14 +90,14 @@ void print_item (struct product_t product) {
 }
 
 void add_to_db (db_t db, struct product_t product) {
-  if (db->amount == 0){
+  db->amount++;
+  if (db->amount == 1){
     db->product = malloc(sizeof(struct product_t));
     db->product[0] = product;
-    db->amount++;
   }
   else{
-    db->product = realloc(db->product, sizeof(struct product_t) * (++(db->amount)));
-    db->product[db->amount] = product;
+    db->product = realloc(db->product, sizeof(struct product_t) * ((db->amount)));
+    db->product[db->amount-1] = product;
   }
 }
 
@@ -121,7 +121,7 @@ void add_item (db_t db) {
   product.amount = ask_int_question("Amount");
   
   print_item(product);
-  printf("Database-index: %d\n\n", db->amount);
+  printf("Database-index: %d\n\n", db->amount+1);
 
   while(getchar() != '\n');
 
@@ -160,10 +160,12 @@ void print_db(db_t db) {
   else {
     int* n = &db->amount;
     for(int i = 0; i <= *n; i++){
-      if (&db->product[i] != NULL){
+      if(db->product[i].name == NULL){
+	
+}
+      else if (&db->product[i] != NULL){
 	print_item(db->product[i]);
-	printf("Database-index: %d\n\n", i);
-	i++;
+	printf("Database-index: %d\n\n", i+1);
       }
     }
     puts("End of Database\n");
