@@ -117,12 +117,6 @@ void add_to_db (db_t db, struct product_t product) {
 
 int positionOfProduct(db_t db, char* name1) {
   int n = (db->amount)-1;
-
-  /*  printf("%d\n", n);
-  printf("%s\n", db->product[0].name);
-  printf("%s\n", name1);
-  //printf("%d \n", n);*/
-
   for (int i = 0; i <= n; i++) {
     if (strcmp(name1, db->product[i].name) == 0){
       return i;
@@ -165,7 +159,8 @@ void remove_item (db_t db) {
 }
   else{
     int a = positionOfProduct(db, reply);
-    db->product[a] = NULL;   // HER IZ BIG ER0R. NO WORKY WORKY
+    printf("The product is at database-index: %d\n", a);
+    //db->product[a] = NULL;   // HER IZ BIG ER0R. NO WORKY WORKY
     puts("The product has been removed");
 }
 
@@ -174,15 +169,20 @@ void remove_item (db_t db) {
 
 
 void print_db(db_t db) {
-  int* n = &db->amount;
-  for(int i = 0; i <= *n; i++){
-    if (&db->product[i] != NULL){
-    print_item(db->product[i]);
-    printf("Database-index: %d\n\n", (db->amount)-1);
-    i++;
-    }
+  if (db->amount == 0) {
+    puts("The database is empty.\n");
   }
-  puts("End of Database\n");
+  else {
+    int* n = &db->amount;
+    for(int i = 0; i <= *n; i++){
+      if (&db->product[i] != NULL){
+	print_item(db->product[i]);
+	printf("Database-index: %d\n\n", i);
+	i++;
+      }
+    }
+    puts("End of Database\n");
+  }
 }
 
 
