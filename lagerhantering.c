@@ -160,13 +160,13 @@ void remove_item (db_t db) {
     printf("You wish to remove the product: %s", db->product[a].name);
     //db->product[a] = NULL;
     //free(&db->product[a]); 
+    free(db->product[a].name);
+    free(db->product[a].description);
+    free(db->product[a].place);
+
     for (int i = a; i < db->amount; i++){ // Thought it could look something like this..
       db->product[i] = db->product[i+1];
     }
-    free(db->product[db->amount].name);
-    free(db->product[db->amount].description);
-    free(db->product[db->amount].place);
-    free(&db->product[db->amount]);
     db->amount--;
     puts("The product has been removed.\n");
   }
