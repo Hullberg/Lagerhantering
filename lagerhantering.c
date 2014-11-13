@@ -40,6 +40,15 @@ void printMenu() {
   puts("[Q]uit\n");
 }
 
+void printEdit(){
+  puts("\n[N]ame");
+  puts("[D]escription");
+  puts("[P]lace");
+  puts("P[r]ice");
+  puts("[A]mount");
+  
+}
+
 // Asks the user to enter a valid string for the desired label of the product.
 char* ask_string_question(char* question) {
   printf("A string suited for the current label, %s: ", question);
@@ -115,22 +124,27 @@ int positionOfProduct(db_t db, char* name1) {
 void add_item (db_t db) {
   struct product_t product;
   product.name = ask_string_question("Name");
-  product.description = ask_string_question("Description");
-  product.place = ask_string_question("Place");
-  product.price = ask_int_question("Price");
-  product.amount = ask_int_question("Amount");
+  if (positionOfProduct(db, product.name) != -1){
+    puts("Product already exist");
+}
+  else{
+    product.description = ask_string_question("Description");
+    product.place = ask_string_question("Place");
+    product.price = ask_int_question("Price");
+    product.amount = ask_int_question("Amount");
   
-  print_item(product);
-  printf("Database-index: %d\n\n", db->amount+1);
+    print_item(product);
+    printf("Database-index: %d\n\n", db->amount+1);
 
-  while(getchar() != '\n');
+    while(getchar() != '\n');
 
-  if (ask_char_question("Save to database?", "YyNn") == 'y') {
-    add_to_db(db, product);
-    puts("The item was added to the database.\n");
-  }
-  else {
-    puts("The item was not added to the database.\n");
+    if (ask_char_question("Save to database?", "YyNn") == 'y') {
+      add_to_db(db, product);
+      puts("The item was added to the database.\n");
+    }
+    else {
+      puts("The item was not added to the database.\n");
+    }
   }
 }
 
@@ -154,6 +168,59 @@ void remove_item (db_t db) {
   }
 }
 
+
+void edit_item(db_t db){
+  char* reply = whatName("edit");
+  if(positionOfProduct(db, reply) == -1){
+    puts("Product does not exist");
+  }
+  else {
+    int a = positionOfProduct(db, reply);
+    print_item(db->product[a]);
+    printEdit();
+    switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){
+    case 'n':
+        db->product->name = ask_string_question("Name");
+      break;
+  
+    case 'd':
+      db->product->description = ask_string_question("Description");
+      break;
+
+    case 'p':
+      db->product->place = ask_string_question("Place");
+      break;
+     
+    case 'r':
+      db->product->price = ask_int_question("Price");
+      break;
+
+    case 'a':
+      db->product->amount = ask_int_question("Amount");
+      break;
+}
+       
+    
+}
+  
+}
+
+void free_db(db_t db){
+  for(int i = 0; i < db->amount; i++){
+    free(db->product[i].name);
+  free(db->product[i].description);
+  free(db->product[i].place);
+
+  }
+  free(db->product);
+  free(db);
+}
+
+/*db_t db_copy(db_t db){
+  db_t newDb = malloc(sizeof())
+
+}
+*/
 void print_db(db_t db) {
   if (db->amount == 0) {
     puts("The database is empty.\n");
@@ -177,7 +244,9 @@ void print_db(db_t db) {
 int main() {
   bool should_continue = true;
   db_t db1 = malloc(sizeof(struct db_t));
+  // db_t backup = db_copy(db1);
   while (should_continue) {
+    
     printMenu();
 
     switch (ask_char_question("What do you want to do?", "AaRrEeUuPpQq")){
@@ -193,7 +262,7 @@ int main() {
       
       // Edit
     case 'e':
-      puts("Not implemented yet");
+      edit_item(db1);
       break;
       
       // Undo
@@ -211,7 +280,7 @@ int main() {
       if (ask_char_question("Do you wish to exit the programme?", "YyNn") == 'y') {
 	puts("Goodbye!");
 	should_continue  = false;
-	free(db1);
+	free_db(db1);
       } 
       break;
     default:
