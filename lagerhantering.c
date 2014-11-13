@@ -244,7 +244,7 @@ db_t db_copy(db_t db){
   }*/
 
 void print_db(db_t db) {
-  char* reply = NULL;
+  char* reply = "n";
   if (db->amount == 0) {
     puts("The database is empty.\n");
   }
@@ -265,20 +265,20 @@ void print_db(db_t db) {
       
     }
   
-  puts("End of Database\n");
-  int re = atoi(reply);
-  puts("jepp");
-  while(re <= 0 || re > db->amount){
-    re = atoi(reply);
-    reply = ask_string_question("Choose number or [r]eturn");
-    if (re == 'r'){
-    
-    }
-    else if(re > 0 && re <= db->amount){
-      print_item(db->product[re-1]);
+    puts("End of Database\n");
+    int re = 0;
+    while(strncmp(reply,"r",1) != 0 && (re <= 0 || re > db->amount)){
+      reply = ask_string_question("Choose number or [r]eturn");
+
+      re = atoi(reply);
+      if(re > 0 && re <= db->amount){
+	print_item(db->product[re-1]);
+      }
+      else if (re != 'r'){
+      }
     }
   }
-  }
+  free(reply);
 }
 
 int main() {
