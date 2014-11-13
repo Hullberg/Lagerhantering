@@ -163,6 +163,7 @@ void remove_item (db_t db) {
     for (int i = a; i < db->amount; i++){ // Thought it could look something like this..
       db->product[i] = db->product[i+1];
     }
+    free(&db->product[db->amount]);
     db->amount--;
     puts("The product has been removed.\n");
   }
