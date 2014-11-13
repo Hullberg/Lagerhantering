@@ -96,6 +96,13 @@ void add_to_db (db_t db, struct product_t product) {
     db->amount++;
   }
   else{
+
+    // temp = malloc(sizeof(struct product_t)*db->amount + 1)
+    // temp = db
+    // free(db)
+    // temp[last] = product
+    // return temp
+
     db->product = realloc(db->product, sizeof(struct product_t) * (++(db->amount)));
     db->product[db->amount] = product;
   }
@@ -113,20 +120,20 @@ int positionOfProduct(db_t db, char* name1) {
 
 // Adds an item to the inventory.
 void add_item (db_t db) {
-  struct product_t product;
-  product.name = ask_string_question("Name");
-  product.description = ask_string_question("Description");
-  product.place = ask_string_question("Place");
-  product.price = ask_int_question("Price");
-  product.amount = ask_int_question("Amount");
+  struct product_t* product = malloc(sizeof(struct product_t));
+  product->name = ask_string_question("Name");
+  product->description = ask_string_question("Description");
+  product->place = ask_string_question("Place");
+  product->price = ask_int_question("Price");
+  product->amount = ask_int_question("Amount");
   
-  print_item(product);
+  print_item(*product);
   printf("Database-index: %d\n\n", db->amount);
 
   while(getchar() != '\n');
 
   if (ask_char_question("Save to database?", "YyNn") == 'y') {
-    add_to_db(db, product);
+    add_to_db(db, *product);
     puts("The item was added to the database.\n");
   }
   else {
