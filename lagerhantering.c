@@ -244,6 +244,7 @@ db_t db_copy(db_t db){
   }*/
 
 void print_db(db_t db) {
+  char* reply = NULL;
   if (db->amount == 0) {
     puts("The database is empty.\n");
   }
@@ -254,12 +255,29 @@ void print_db(db_t db) {
 	
 }
       else if (&db->product[i] != NULL){
-	print_item(db->product[i]);
-	printf("Database-index: %d\n\n", i+1);
-      }
+	printf("%d %s", i+1, db->product[i].name);
+
+	}
+
+	//	print_item(db->product[i]);
+	//printf("Database-index: %d\n\n", i+1);
+
+      
     }
-    puts("End of Database\n");
-    printf("amount = %d\n", db->amount);
+  
+  puts("End of Database\n");
+  int re = atoi(reply);
+  puts("jepp");
+  while(re <= 0 || re > db->amount){
+    re = atoi(reply);
+    reply = ask_string_question("Choose number or [r]eturn");
+    if (re == 'r'){
+    
+    }
+    else if(re > 0 && re <= db->amount){
+      print_item(db->product[re-1]);
+    }
+  }
   }
 }
 
@@ -301,8 +319,6 @@ int main() {
       // Print
     case 'p':
       print_db(db1);
-      puts("\nbackup:\n");
-      print_db(backup);
       break;
       
       // Quit
