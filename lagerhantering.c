@@ -232,7 +232,6 @@ db_t db_copy(db_t db){
 
 void undo(db_t db, db_t backup){
   db = db_copy(backup);
-  free_db(backup);
 
 }
 
@@ -303,6 +302,7 @@ int main() {
 	puts("Goodbye!");
 	should_continue  = false;
 	free_db(db1);
+	free_db(backup);
       } 
       break;
     default:
