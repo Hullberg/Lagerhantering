@@ -230,10 +230,10 @@ db_t db_copy(db_t db){
   return newDb;
 }
 
-void undo(db_t db, db_t backup){
+/*void undo(db_t db, db_t backup){
   db = db_copy(backup);
 
-}
+  }*/
 
 void print_db(db_t db) {
   if (db->amount == 0) {
@@ -265,7 +265,7 @@ int main() {
       // Add
     case 'a':
       free_db(backup);
-      db_t backup = db_copy(db1);
+      backup = db_copy(db1);
       add_item(db1);
       break;
 
@@ -285,7 +285,8 @@ int main() {
       
       // Undo
     case 'u':
-      undo(db1, backup);
+      free_db(db1);
+      db1 = db_copy(backup);
       // backup = db_copy(db1);
       break;
       
