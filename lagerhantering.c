@@ -180,7 +180,7 @@ void edit_item(db_t db){
     printEdit();
     switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){
     case 'n':
-        db->product->name = ask_string_question("Name");
+      db->product->name = ask_string_question("Name");
       break;
   
     case 'd':
@@ -198,10 +198,10 @@ void edit_item(db_t db){
     case 'a':
       db->product->amount = ask_int_question("Amount");
       break;
-}
+    }
        
     
-}
+  }
   
 }
 
@@ -216,11 +216,26 @@ void free_db(db_t db){
   free(db);
 }
 
-/*db_t db_copy(db_t db){
-  db_t newDb = malloc(sizeof())
+db_t db_copy(db_t db){
+  db_t newDb = malloc(sizeof(struct db_t));
+  newDb->amount = db->amount;
+    newDb->product = malloc((sizeof(struct product_t) * db->amount));
+  for (int i = 0; i < db->amount; i++){
+    newDb->product[i].name = strdup(db->product[i].name);
+    newDb->product[i].description = strdup(db->product[i].description);
+    newDb->product[i].place = strdup(db->product[i].place);
+    newDb->product[i].price = db->product[i].price;
+    newDb->product[i].amount = db->product[i].amount;
+  }
+  return newDb;
+}
+
+void undo(db_t db, db_t backup){
+  db = db_copy(backup);
+  free_db(backup);
 
 }
-*/
+
 void print_db(db_t db) {
   if (db->amount == 0) {
     puts("The database is empty.\n");
@@ -244,35 +259,42 @@ void print_db(db_t db) {
 int main() {
   bool should_continue = true;
   db_t db1 = malloc(sizeof(struct db_t));
-  // db_t backup = db_copy(db1);
-  while (should_continue) {
-    
+  db_t backup = db_copy(db1);
+  while (should_continue) { 
     printMenu();
-
     switch (ask_char_question("What do you want to do?", "AaRrEeUuPpQq")){
       // Add
     case 'a':
+      free_db(backup);
+      db_t backup = db_copy(db1);
       add_item(db1);
       break;
 
       // Remove
     case 'r':
+      free_db(backup);
+      backup = db_copy(db1);
       remove_item(db1);
       break;
       
       // Edit
     case 'e':
+      free_db(backup);
+      backup = db_copy(db1);
       edit_item(db1);
       break;
       
       // Undo
     case 'u':
-      puts("Not implemented yet");
+      undo(db1, backup);
+      // backup = db_copy(db1);
       break;
       
       // Print
     case 'p':
       print_db(db1);
+      puts("\nbackup:\n");
+      print_db(backup);
       break;
       
       // Quit
