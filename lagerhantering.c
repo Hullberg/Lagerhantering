@@ -185,14 +185,17 @@ void edit_item(db_t db){
     printEdit();
     switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){
     case 'n':
+      free(db->product->name);
       db->product->name = ask_string_question("Name");
       break;
   
     case 'd':
+      free(db->product->description);
       db->product->description = ask_string_question("Description");
       break;
 
     case 'p':
+      free(db->product->place);
       db->product->place = ask_string_question("Place");
       break;
      
@@ -207,7 +210,7 @@ void edit_item(db_t db){
        
     
   }
-  
+  free(reply);
 }
 
 void free_db(db_t db){
