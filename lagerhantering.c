@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+// valgrind --tool=memcheck --leak-check=full ./lager
+
 /*
 // Example: place A25
 struct place_t{
@@ -185,35 +187,60 @@ void edit_item(db_t db){
       int a = positionOfProduct(db, reply);
       print_item(db->product[a]);
       printEdit();
+      char* edited;
+      int answer;
       switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){
       case 'n':
-	free(db->product->name);
-	db->product->name = ask_string_question("Name");
+	edited = ask_string_question("Name");
+	printf("You are about to change the name to: %s\n", edited);
+	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+	  free(db->product->name);
+	  db->product->name = edited;
+	}
+	free(edited);
 	break;
 	
       case 'd':
+	edited = ask_string_question("Description");
+	printf("You are about to change the description to: %s\n", edited);
+	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
 	free(db->product->description);
-	db->product->description = ask_string_question("Description");
-	break;
-	
-      case 'p':
-	free(db->product->place);
-	db->product->place = ask_string_question("Place");
-	break;
-	
-      case 'r':
-	db->product->price = ask_int_question("Price");
-	while(getchar() != '\n');
-	break;
-	
-      case 'a':
-	db->product->amount = ask_int_question("Amount");
-	while(getchar() != '\n');
-	break;
-      }   
+	db->product->description = edited;
+      }
+      free(edited);
+      break;
+      
+    case 'p':
+      edited = ask_string_question("Place");
+      printf("You are about to change the place to: %s\n", edited);
+      if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+      free(db->product->place);
+      db->product->place = edited;
     }
-    free(reply);
+    free(edited);
+    break;
+	
+  case 'r':
+    answer = ask_int_question("Price");
+    printf("You are about to change the price to: %d\n", answer);
+    if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+    db->product->price = answer;
+    while(getchar() != '\n');
   }
+  break;
+	
+ case 'a':
+   answer = ask_int_question("Amount");
+   printf("You are about to change the amount to: %d\n", answer);
+   if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+  db->product->amount = answer;
+  while(getchar() != '\n');
+}
+break;
+}   
+}
+free(reply);
+}
 }
 
 void free_db(db_t db){
@@ -241,10 +268,6 @@ db_t db_copy(db_t db){
   }
   return newDb;
 }
-
-/*void undo(db_t db, db_t backup){
-  db = db_copy(backup);
-  }*/
 
 void print_db(db_t db) {
   char* reply = "n";
@@ -324,7 +347,6 @@ int main() {
       
       // Quit
     case 'q':
-      puts("You chose 'Quit'");
       if (ask_char_question("Do you wish to exit the programme?", "YyNn") == 'y') {
 	puts("Goodbye!");
 	should_continue  = false;
