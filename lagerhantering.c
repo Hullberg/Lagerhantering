@@ -358,9 +358,10 @@ int main() {
 	if (backup != NULL) {
 	  free_db(backup);
 	  }
-	else
+	else if(backup == NULL){
 	  free(backup);
-      } 
+	} 
+      }
       break;
     default:
       puts("Did not enter any valid command, please try again.\n");
