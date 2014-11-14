@@ -1,4 +1,4 @@
- #include <stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <strings.h>
 #include <string.h>
@@ -126,7 +126,7 @@ void add_item (db_t db) {
   product.name = ask_string_question("Name");
   if (positionOfProduct(db, product.name) != -1){
     puts("Product already exist");
-}
+  }
   else{
     product.description = ask_string_question("Description");
     product.place = ask_string_question("Place");
@@ -158,13 +158,11 @@ void remove_item (db_t db) {
     int a = positionOfProduct(db, reply);
     printf("The product is at database-index: %d\n", a+1);
     printf("You wish to remove the product: %s", db->product[a].name);
-    //db->product[a] = NULL;
-    //free(&db->product[a]); 
     free(db->product[a].name);
     free(db->product[a].description);
     free(db->product[a].place);
 
-    for (int i = a; i < db->amount; i++){ // Thought it could look something like this..
+    for (int i = a; i < db->amount; i++){ 
       db->product[i] = db->product[i+1];
     }
     db->amount--;
@@ -175,59 +173,65 @@ void remove_item (db_t db) {
 
 
 void edit_item(db_t db){
-  char* reply = whatName("edit");
-  if(positionOfProduct(db, reply) == -1){
-    puts("Product does not exist");
+  if (db->amount == 0) {
+    puts("There are no items in the database to edit!");
   }
   else {
-    int a = positionOfProduct(db, reply);
-    print_item(db->product[a]);
-    printEdit();
-    switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){
-    case 'n':
-      free(db->product->name);
-      db->product->name = ask_string_question("Name");
-      break;
-  
-    case 'd':
-      free(db->product->description);
-      db->product->description = ask_string_question("Description");
-      break;
-
-    case 'p':
-      free(db->product->place);
-      db->product->place = ask_string_question("Place");
-      break;
-     
-    case 'r':
-      db->product->price = ask_int_question("Price");
-      break;
-
-    case 'a':
-      db->product->amount = ask_int_question("Amount");
-      break;
+    char* reply = whatName("edit");
+    if(positionOfProduct(db, reply) == -1){
+      puts("Product does not exist");
     }
-       
-    
+    else {
+      int a = positionOfProduct(db, reply);
+      print_item(db->product[a]);
+      printEdit();
+      switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){
+      case 'n':
+	free(db->product->name);
+	db->product->name = ask_string_question("Name");
+	break;
+	
+      case 'd':
+	free(db->product->description);
+	db->product->description = ask_string_question("Description");
+	break;
+	
+      case 'p':
+	free(db->product->place);
+	db->product->place = ask_string_question("Place");
+	break;
+	
+      case 'r':
+	db->product->price = ask_int_question("Price");
+	while(getchar() != '\n');
+	break;
+	
+      case 'a':
+	db->product->amount = ask_int_question("Amount");
+	while(getchar() != '\n');
+	break;
+      }   
+    }
+    free(reply);
   }
-  free(reply);
 }
 
 void free_db(db_t db){
-  for(int i = 0; i < db->amount; i++){
-    free(db->product[i].name);
-  free(db->product[i].description);
-  free(db->product[i].place);
-
+  if (db != NULL) {
+    for(int i = 0; i < db->amount; i++){
+      free(db->product[i].name);
+      free(db->product[i].description);
+      free(db->product[i].place);   
+    }
+    free(db->product);
   }
-  free(db->product);
   free(db);
 }
 
 db_t db_copy(db_t db){
   db_t newDb = malloc(sizeof(struct db_t));
   newDb->amount = db->amount;
-    newDb->product = malloc((sizeof(struct product_t) * db->amount));
+  newDb->product = malloc((sizeof(struct product_t) * db->amount));
   for (int i = 0; i < db->amount; i++){
     newDb->product[i].name = strdup(db->product[i].name);
     newDb->product[i].description = strdup(db->product[i].description);
@@ -250,34 +254,27 @@ void print_db(db_t db) {
   else {
     int* n = &db->amount;
     for(int i = 0; i < *n; i++){
-      if(db->product[i].name == NULL){
-	
-}
+      if(db->product[i].name == NULL){	
+      }
       else if (&db->product[i] != NULL){
 	printf("%d %s", i+1, db->product[i].name);
-
-	}
-
-	//	print_item(db->product[i]);
-	//printf("Database-index: %d\n\n", i+1);
-
-      
+      }
     }
-  
     puts("End of Database\n");
     int re = 0;
     while(strncmp(reply,"r",1) != 0 && (re <= 0 || re > db->amount)){
-      reply = ask_string_question("Choose number or [r]eturn");
-
-      re = atoi(reply);
-      if(re > 0 && re <= db->amount){
-	print_item(db->product[re-1]);
+      char answer = ask_char_question("[C]hoose number for description or [R]eturn,", "CcRr");
+      if (answer == 'c') {
+	int number = ask_int_question("Enter the index of the product you wish to examine") - 1;
+	while(getchar() != '\n');
+	print_item(db->product[number]);
       }
-      else if (re != 'r'){
+      if (answer == 'r') {
+	//free(answer);
+	break;
       }
     }
   }
-  free(reply);
 }
 
 int main() {
@@ -289,6 +286,7 @@ int main() {
     switch (ask_char_question("What do you want to do?", "AaRrEeUuPpQq")){
       // Add
     case 'a':
+      puts("You chose 'Add'");
       free_db(backup);
       backup = db_copy(db1);
       add_item(db1);
@@ -296,6 +294,7 @@ int main() {
 
       // Remove
     case 'r':
+      puts("You chose 'Remove'");
       free_db(backup);
       backup = db_copy(db1);
       remove_item(db1);
@@ -303,6 +302,7 @@ int main() {
       
       // Edit
     case 'e':
+      puts("You chose 'Edit'");
       free_db(backup);
       backup = db_copy(db1);
       edit_item(db1);
@@ -310,6 +310,7 @@ int main() {
       
       // Undo
     case 'u':
+      puts("You chose 'Undo'");
       free_db(db1);
       db1 = db_copy(backup);
       // backup = db_copy(db1);
@@ -317,11 +318,13 @@ int main() {
       
       // Print
     case 'p':
+      puts("You chose 'Print'");
       print_db(db1);
       break;
       
       // Quit
     case 'q':
+      puts("You chose 'Quit'");
       if (ask_char_question("Do you wish to exit the programme?", "YyNn") == 'y') {
 	puts("Goodbye!");
 	should_continue  = false;
