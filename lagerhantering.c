@@ -350,11 +350,16 @@ int main() {
       if (ask_char_question("Do you wish to exit the programme?", "YyNn") == 'y') {
 	puts("Goodbye!");
 	should_continue  = false;
-	free(db1);
-	
+	if(db1 != NULL){
+	free_db(db1);
+	}
+	else
+	  free(db1);
 	if (backup != NULL) {
 	  free_db(backup);
 	  }
+	else
+	  free(backup);
       } 
       break;
     default:
