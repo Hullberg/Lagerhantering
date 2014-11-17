@@ -20,7 +20,7 @@ lagerhantering.o: lagerhantering.c lagerhantering.h
 	$(CC) $(CFLAGS) lagerhantering.c -c
 
 tests: lagerhantering.o unittests.c
-	$(CC) $(CFLAGS) unittests.c lagerhantering.o -o tests
+	$(CC) $(CFLAGS) unittests.c lagerhantering.o -o tests -lcunit
 
 test : tests
 	./tests
