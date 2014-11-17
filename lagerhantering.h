@@ -1,4 +1,4 @@
-ifndef LAGERHANTERING_H
+#ifndef LAGERHANTERING_H
 #define LAGERHANTERING_H
 
 #include <stdlib.h>
