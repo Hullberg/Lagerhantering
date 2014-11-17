@@ -142,8 +142,15 @@ void add_item (db_t db) {
   else{
     product.description = ask_string_question("Description");
     char* reply = ask_string_question("Place");
+    int i = 0;
     while (placeExist(db, reply) != -1){
+      i++;
+      if (i >= 3){
+	puts("REALLY dude?! Stop it! Enter another place, PLEASE!");
+      }
+      else{
       puts("Place is already taken, please try again");
+      }
     reply = ask_string_question("Place");
     }
     product.place = reply;
