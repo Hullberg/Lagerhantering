@@ -1,5 +1,5 @@
 #include <string.h>
-#include "CUnit/Basic.h"
+#include <CUnit/Basic.h>
 #include <stdlib.h>
 #include "lagerhantering.h"
 
@@ -23,38 +23,50 @@ int clean_suite_2(void)
   return 0;
 }
 
+// Empty database initialized
+db_t db1 = malloc(sizeof(struct db_t));
+
 void testLAGER_ADD(void) 
 {
+  // Test add_to_db instead of add_item
+  struct product_t product1;
+  product1.name = "Apple";
+  product1.description = "A fruit";
+  product1.place = "A01";
+  product1.price = 12;
+  product1.amount = 10;
   
+  struct product_t product2;
+  product2.name = "Cookie";
+  product2.description = "Pastry";
+  product2.place = "B02";
+  product2.price = 20;
+  product2.amount = 7;
+
+  add_to_db(db1, product1);
+  add_to_db(db1, product2);
+
+  CU_ASSERT(db1->product[0] == product1);
+  CU_ASSERT(db1->product[1] == product2);
+
 }
 
-void testLAGER_RM(void)
+void testLAGER_positionOfProduct(void)
 {
-  
+  CU_ASSERT(positionOfProduct(db1, product1) == 0);
+  CU_ASSERT(positionOfProduct(db1, product2) == 1);
 }
 
-void testLAGER_EDIT(void)
+
+void testLAGER_dbCopy(void)
 {
-  
-}
-
-void testLAGER_PRINT(void)
-{
-  
-}
-
-void testLAGER_UNDO(void)
-{
-  
-}
-
-void testLAGER_EXIT(void)
-{
-  
+  CU_ASSERT(*db_copy(db1) == *db1);
 }
 
 
 
+/* ----- ISTRING ------ */
+/*
 void testISTRING_MK(void)
 {
   char *str1 = istring_mk(NULL);
@@ -174,6 +186,10 @@ void testISTRNCPY(void)
   // You must implement your own!
   CU_FAIL("Test not implemented yet");
 }
+
+*/
+/* ----- ISTRING ----- */
+
 
 int main()
 {
