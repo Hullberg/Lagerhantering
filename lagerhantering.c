@@ -51,6 +51,14 @@ void printEdit(){
   
 }
 
+bool equalProducts(struct product_t p1, struct product_t p2){
+  if((p1.name == p2.name) && (p1.description == p2.description) && (p1.place == p2.place) && (p1.price == p2.price) && (p1.amount == p2.amount)){
+    return true;
+  }
+  else return false;
+}
+
+
 // Asks the user to enter a valid string for the desired label of the product.
 char* ask_string_question(char* question) {
   printf("A string suited for the current label, %s: ", question);
