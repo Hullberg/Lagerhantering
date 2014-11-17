@@ -26,28 +26,34 @@ int clean_suite_2(void)
 // Empty database initialized
 db_t db1 = malloc(sizeof(struct db_t));
 
+struct product_t product1;
+product1.name = "Apple";
+product1.description = "A fruit";
+product1.place = "A01";
+product1.price = 12;
+product1.amount = 10;
+  
+struct product_t product2;
+product2.name = "Cookie";
+product2.description = "Pastry";
+product2.place = "B02";
+product2.price = 20;
+product2.amount = 7;
+
+void testLAGER_equalProducts(void)
+{
+  CU_ASSERT(equalProducts(product1, product1) == true);
+  CU_ASSERT(equalProducts(product1, product2) == false);
+}
+
 void testLAGER_ADD(void) 
 {
   // Test add_to_db instead of add_item
-  struct product_t product1;
-  product1.name = "Apple";
-  product1.description = "A fruit";
-  product1.place = "A01";
-  product1.price = 12;
-  product1.amount = 10;
-  
-  struct product_t product2;
-  product2.name = "Cookie";
-  product2.description = "Pastry";
-  product2.place = "B02";
-  product2.price = 20;
-  product2.amount = 7;
-
   add_to_db(db1, product1);
   add_to_db(db1, product2);
 
-  CU_ASSERT(db1->product[0] == product1);
-  CU_ASSERT(db1->product[1] == product2);
+  CU_ASSERT(equalProducts(db1->product[0], product1));
+  CU_ASSERT(equalProducts(db1->product[1], product2));
 
 }
 
@@ -215,18 +221,23 @@ int main()
     }
 
   /* add the tests to the suites */
-  if (
+  if (/* Here we put our own tests
     (NULL == CU_add_test(pSuite1, "test of istring_mk()", testISTRING_MK)) ||
     (NULL == CU_add_test(pSuite1, "test of istring_rm()", testISTRING_RM)) ||
     (NULL == CU_add_test(pSuite1, "test of istring_to_string()", testISTRING_TO_STRING)) ||
-    (NULL == CU_add_test(pSuite1, "test of istrlen()", testISTRLEN))
-  )
+    (NULL == CU_add_test(pSuite1, "test of istrlen()", testISTRLEN))*/
+     
+      (NULL == CU_add_test(pSuite1, "test of lager_equalProducts()", testLAGER_equalProducts)) ||
+      (NULL == CU_add_test(pSuite1, "test of lager_positionOfProduct()", testLAGER_positionOfProduct)) ||
+      (NULL == CU_add_test(pSuite1, "test of lager_dbCopy()", testLAGER_dbCopy))
+      
+      )
     {
       CU_cleanup_registry();
       return CU_get_error();
     }
 
-  if (
+  if (/* Here we put our own tests
     (NULL == CU_add_test(pSuite2, "test of istrcat()", testISTRCAT)) ||
     (NULL == CU_add_test(pSuite2, "test of istrncat()", testISTRNCAT)) ||
     (NULL == CU_add_test(pSuite2, "test of istrchr()", testISTRCHR)) ||
@@ -234,8 +245,11 @@ int main()
     (NULL == CU_add_test(pSuite2, "test of istrcmp()", testISTRCMP)) ||
     (NULL == CU_add_test(pSuite2, "test of istrncmp()", testISTRNCMP)) ||
     (NULL == CU_add_test(pSuite2, "test of istrcpy()", testISTRCPY)) ||
-    (NULL == CU_add_test(pSuite2, "test of istrncpy()", testISTRNCPY))
-  )
+    (NULL == CU_add_test(pSuite2, "test of istrncpy()", testISTRNCPY))*/
+
+      (NULL == CU_add_test(pSuite2, "test of lager_add()", testLAGER_ADD))
+      
+      )
     {
       CU_cleanup_registry();
       return CU_get_error();
