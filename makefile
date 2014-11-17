@@ -8,7 +8,7 @@ CFLAGS = -g -Wall -std=c99
 lager: lagerhantering.c
 	$(CC) $(CFLAGS) lagerhantering.c -o lager
 
-.PHONY: clean run test
+.PHONY: clean run tests
 
 clean:
 	rm -f lager
@@ -17,10 +17,10 @@ run: lager
 	./lager
 
 lagerhantering.o: lagerhantering.c lagerhantering.h
-	$(CC) $(CFLAGS) lagerhantering.c
+	$(CC) $(CFLAGS) lagerhantering.c -c
 
 tests: lagerhantering.o unittests.c
-	$(CC) $(CFLAGS) unittests.c -o tests
+	$(CC) $(CFLAGS) unittests.c lagerhantering.o -o tests
 
 test : tests
 	./tests

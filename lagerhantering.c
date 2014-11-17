@@ -58,22 +58,6 @@ bool equalProducts(struct product_t p1, struct product_t p2){
   else return false;
 }
 
-bool equalDatabases(db_t db1, db_t db2) {
-  if (db1->amount == db2->amount) {
-    //for (int i = 0; i < db1->amount; i++) {
-    int i = 0;
-    bool stop = true;
-    while(i < db1->amount && stop == true){
-      if (equalProducts(db1->product[i], db2->product[i]) == false) {
-	stop = false;	 
-      }
-      i++;
-    }
-    return stop;
-  }
-  else return false;
-}
-
 
 // Asks the user to enter a valid string for the desired label of the product.
 char* ask_string_question(char* question) {
@@ -345,7 +329,7 @@ void print_db(db_t db) {
     }
   }
 }
-
+/*
 int main() {
   bool should_continue = true;
   db_t db1 = malloc(sizeof(struct db_t));
@@ -415,3 +399,5 @@ int main() {
   }
   return 0;
 }
+*/
+
