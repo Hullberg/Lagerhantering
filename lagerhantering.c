@@ -48,7 +48,7 @@ void printEdit(){
   puts("[P]lace");
   puts("P[r]ice");
   puts("[A]mount");
-  puts("[S]top, don't edit anything");
+  
 }
 
 // Asks the user to enter a valid string for the desired label of the product.
@@ -122,6 +122,16 @@ int positionOfProduct(db_t db, char* name1) {
   return -1;
 }
 
+int placeExist(db_t db, char* place1){
+ int n = (db->amount)-1;
+  for (int i = 0; i <= n; i++) {
+    if (strcmp(place1, db->product[i].place) == 0){
+      return i;
+    }
+  }
+  return -1;
+}
+
 // Adds an item to the inventory.
 void add_item (db_t db) {
   struct product_t product;
@@ -131,7 +141,12 @@ void add_item (db_t db) {
   }
   else{
     product.description = ask_string_question("Description");
-    product.place = ask_string_question("Place");
+    char* reply = ask_string_question("Place");
+    while (placeExist(db, reply) != -1){
+      puts("Place is already taken, please try again");
+    reply = ask_string_question("Place");
+    }
+    product.place = reply;
     product.price = ask_int_question("Price");
     product.amount = ask_int_question("Amount");
   
@@ -189,78 +204,55 @@ void edit_item(db_t db){
       printEdit();
       char* edited;
       int answer;
-      bool should_continue = true;
-      while (should_continue == true) {
-	switch (ask_char_question("What do you want to edit?", "NnDdPpRrAaSs")){
-	case 'n':
-	  edited = ask_string_question("Name");
-	  printf("You are about to change the name from: %s, to: %s\n", db->product->name, edited);
-	  if (ask_char_question("Are you sure?", "YyNn") == 'y') {
-	    free(db->product->name);
-	    db->product->name = edited;
-	  }
-	  free(edited);
-	  if (ask_char_question("Do you wish to edit anything else?", "YyNn") == 'n') {
-	    should_continue = false;
-	  }
-	  break;
+      switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){
+      case 'n':
+	edited = ask_string_question("Name");
+	printf("You are about to change the name to: %s", edited);
+	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+	  free(db->product->name);
+	  db->product->name = edited;
+	}
+	free(edited);
+	break;
 	
-	case 'd':
-	  edited = ask_string_question("Description");
-	  printf("You are about to change the description from: %s, to: %s\n", db->product->description, edited);
-	  if (ask_char_question("Are you sure?", "YyNn") == 'y') {
-	    free(db->product->description);
-	    db->product->description = edited;
-	  }
-	  free(edited);
-	  if (ask_char_question("Do you wish to edit anything else?", "YyNn") == 'n') {
-	    should_continue = false;
-	  }
-	  break;
+      case 'd':
+	edited = ask_string_question("Description");
+	printf("You are about to change the description to: %s", edited);
+	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+	  free(db->product->description);
+	  db->product->description = edited;
+	}
+	free(edited);
+	break;
       
-	case 'p':
-	  edited = ask_string_question("Place");
-	  printf("You are about to change the place from: %s, to: %s\n", db->product->place, edited);
-	  if (ask_char_question("Are you sure?", "YyNn") == 'y') {
-	    free(db->product->place);
-	    db->product->place = edited;
-	  }
-	  free(edited);
-	  if (ask_char_question("Do you wish to edit anything else?", "YyNn") == 'n') {
-	    should_continue = false;
-	  }
-	  break;
+      case 'p':
+	edited = ask_string_question("Place");
+	printf("You are about to change the place to: %s", edited);
+	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+	  free(db->product->place);
+	  db->product->place = edited;
+	}
+	free(edited);
+	break;
 	
-	case 'r':
-	  answer = ask_int_question("Price");
-	  printf("You are about to change the price from: %d, to: %d\n", db->product->price, answer);
-	  if (ask_char_question("Are you sure?", "YyNn") == 'y') {
-	    db->product->price = answer;
-	    while(getchar() != '\n');
-	  }
-	  if (ask_char_question("Do you wish to edit anything else?", "YyNn") == 'n') {
-	    should_continue = false;
-	  }
-	  break;
+      case 'r':
+	answer = ask_int_question("Price");
+	printf("You are about to change the price to: %d", answer);
+	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+	  db->product->price = answer;
+	  while(getchar() != '\n');
+	}
+	break;
 	
-	case 'a':
-	  answer = ask_int_question("Amount");
-	  printf("You are about to change the amount from: %d, to: %d\n", db->product->amount, answer);
-	  if (ask_char_question("Are you sure?", "YyNn") == 'y') {
-	    db->product->amount = answer;
-	    while(getchar() != '\n');
-	  }
-	  if (ask_char_question("Do you wish to edit anything else?", "YyNn") == 'n') {
-	    should_continue = false;
-	  }
-	  break;
-
-	case 's':
-	  puts("Nothing has been changed, returning to main page.");
-	  should_continue = false;
-	  break;
-	}   
-      }
+      case 'a':
+	answer = ask_int_question("Amount");
+	printf("You are about to change the amount to: %d", answer);
+	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
+	  db->product->amount = answer;
+	  while(getchar() != '\n');
+	}
+	break;
+      }   
     }
     free(reply);
   }
@@ -309,13 +301,14 @@ void print_db(db_t db) {
     puts("End of Database\n");
     int re = 0;
     while(strncmp(reply,"r",1) != 0 && (re <= 0 || re > db->amount)){
-      char answer = ask_char_question("[C]hoose a number for description or [R]eturn,", "CcRr");
+      char answer = ask_char_question("[C]hoose number for description or [R]eturn,", "CcRr");
       if (answer == 'c') {
 	int number = ask_int_question("Enter the index of the product you wish to examine") - 1;
 	while(getchar() != '\n');
 	print_item(db->product[number]);
       }
       if (answer == 'r') {
+	//free(answer);
 	break;
       }
     }
@@ -325,7 +318,7 @@ void print_db(db_t db) {
 int main() {
   bool should_continue = true;
   db_t db1 = malloc(sizeof(struct db_t));
-  db_t backup = malloc(sizeof(struct db_t));
+  db_t backup;
   while (should_continue) { 
     printMenu();
     switch (ask_char_question("What do you want to do?", "AaRrEeUuPpQq")){
@@ -371,18 +364,18 @@ int main() {
     case 'q':
       if (ask_char_question("Do you wish to exit the programme?", "YyNn") == 'y') {
 	puts("Goodbye!");
+	should_continue  = false;
 	if(db1 != NULL){
-	  free_db(db1);
+	free_db(db1);
 	}
 	else
 	  free(db1);
 	if (backup != NULL) {
 	  free_db(backup);
-	}
-	else {
-	  free(backup);
 	  }
-	should_continue  = false;
+	else if(backup == NULL){
+	  free(backup);
+	} 
       }
       break;
     default:

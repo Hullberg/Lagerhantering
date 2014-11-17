@@ -1,5 +1,5 @@
 #include <string.h>
-#include "CUnit/Basic.h"
+#include <CUnit/CUnit.h>
 #include <stdlib.h>
 #include "lagerhantering.h"
 
