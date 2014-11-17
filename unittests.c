@@ -24,7 +24,12 @@ int clean_suite_2(void)
 }
 
 // Empty database initialized
-db_t db1 = malloc(sizeof(struct db_t));
+
+
+
+
+void testLAGER_equalProducts(void)
+{
 
 struct product_t product1;
 product1.name = "Apple";
@@ -39,15 +44,26 @@ product2.description = "Pastry";
 product2.place = "B02";
 product2.price = 20;
 product2.amount = 7;
-
-void testLAGER_equalProducts(void)
-{
   CU_ASSERT(equalProducts(product1, product1) == true);
   CU_ASSERT(equalProducts(product1, product2) == false);
 }
 
 void testLAGER_ADD(void) 
 {
+  db_t db1 = malloc(sizeof(struct db_t));
+struct product_t product1;
+product1.name = "Apple";
+product1.description = "A fruit";
+product1.place = "A01";
+product1.price = 12;
+product1.amount = 10;
+  
+struct product_t product2;
+product2.name = "Cookie";
+product2.description = "Pastry";
+product2.place = "B02";
+product2.price = 20;
+product2.amount = 7;
   // Test add_to_db instead of add_item
   add_to_db(db1, product1);
   add_to_db(db1, product2);
@@ -59,14 +75,32 @@ void testLAGER_ADD(void)
 
 void testLAGER_positionOfProduct(void)
 {
-  CU_ASSERT(positionOfProduct(db1, product1) == 0);
-  CU_ASSERT(positionOfProduct(db1, product2) == 1);
+  db_t db1 = malloc(sizeof(struct db_t));
+  struct product_t product1;
+product1.name = "Apple";
+product1.description = "A fruit";
+product1.place = "A01";
+product1.price = 12;
+product1.amount = 10;
+  
+struct product_t product2;
+product2.name = "Cookie";
+product2.description = "Pastry";
+product2.place = "B02";
+product2.price = 20;
+product2.amount = 7;
+ 
+  add_to_db(db1, product1);
+  add_to_db(db1, product2);
+  
+  CU_ASSERT(positionOfProduct(db1, product1.name) == 0);
+  CU_ASSERT(positionOfProduct(db1, product2.name) == 1);
 }
 
 
-void testLAGER_dbCopy(void)
-{
-  CU_ASSERT(*db_copy(db1) == *db1);
+void testLAGER_dbCopy(void){
+  db_t db1 = malloc(sizeof(struct db_t));
+  CU_ASSERT(equalDatabases(db_copy(db1), db1));
 }
 
 

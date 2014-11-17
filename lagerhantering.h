@@ -1,4 +1,4 @@
-ifndef LAGERHANTERING_H
+#ifndef LAGERHANTERING_H
 #define LAGERHANTERING_H
 
 #include <stdlib.h>
@@ -67,6 +67,12 @@ db_t db_copy(db_t db);
 
 // Prints out a list of the products in a database
 void print_db(db_t db);
+
+//Equality between products
+bool equalProducts(struct product_t p1, struct product_t p2);
+
+//Equality between databases
+bool equalDatabases(db_t db1, db_t db2);
 
 // Runs the program
 int main();
