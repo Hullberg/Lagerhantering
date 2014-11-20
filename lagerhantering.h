@@ -8,6 +8,12 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+/**
+@file lagerhantering.h
+@author Rebecca Oskarsson and Johan Hullberg
+@brief Header file containing the typedefinitions of structures and funktions.
+ */
+
 struct product_t {
   char* name;
   char* description;
@@ -68,6 +74,10 @@ Returns an int that represents where in the database we can find the product wit
  */
 int positionOfProduct(db_t db, char* name1);
 
+/**
+Returns an int that represents where in the database we can find the product at place place1
+ */
+int placeExist(db_t db, char* place1);
 /**
 Adds a product to the database, asks questions for the user to answer
  */
