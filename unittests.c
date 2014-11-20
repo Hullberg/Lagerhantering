@@ -74,6 +74,25 @@ product2.amount = 7;
 
 }
 
+void testLAGER_equalDatabases(void)
+{
+  db_t db1 = malloc(sizeof(struct db_t));
+  db_t db2 = malloc(sizeof(struct db_t));
+
+  struct product_t product1;
+  product1.name = "Apple";
+  product1.description = "A fruit";
+  product1.place = "A01";
+  product1.price = 12;
+  product1.amount = 10;
+  
+  add_to_db(db1, product1);
+  add_to_db(db2, product1);
+
+  CU_ASSERT(equalDatabases(db1, db2) == true);
+
+}
+
 void testLAGER_positionOfProduct(void)
 {
   db_t db1 = malloc(sizeof(struct db_t));
