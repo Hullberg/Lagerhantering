@@ -7,10 +7,10 @@
 
 var indexSectionsWithContent =
 {
-  0: "adlp",
+  0: "adeflmprw",
   1: "dp",
   2: "l",
-  3: "a"
+  3: "adefmprw"
 };
 
 var indexSectionNames =

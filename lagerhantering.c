@@ -62,6 +62,8 @@ void printEdit(){
   
 }
 /**
+@parameter p1 the first product
+@parameter p2 the second product
 Return true if the two given products are exactly the same.
  */
 bool equalProducts(struct product_t p1, struct product_t p2){

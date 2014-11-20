@@ -135,10 +135,19 @@ void testLAGER_scenario(void)
 {
   db_t db1 = malloc(sizeof(struct db_t));
   add_item(db1);
-  CU_ASSERT(positionOfProduct(db1, 'Apple') == 0);
-  CU_ASSERT(placeExist(db1, 'A01') == 0);
+  printf("%d\n", db1->amount);
+  printf("%d\n",(positionOfProduct(db1, "Apple\n")));
+  printf("%d\n", placeExist(db1, "A01\n"));
+  printf("%s\n", db1->product[0].name);
+  printf("%s\n", db1->product[0].place);
+  CU_ASSERT(positionOfProduct(db1, "Apple\n") == 0);
+  CU_ASSERT(placeExist(db1, "A01\n") == 0);
   edit_item(db1);
-  CU_ASSERT(placeExist(db1, 'B3') == 0);
+  CU_ASSERT(placeExist(db1, "B3\n") == 0);
+  remove_item(db1);
+  CU_ASSERT(positionOfProduct(db1, "Apple\n") == -1);
+  add_item(db1);
+  CU_ASSERT(positionOfProduct(db1, "Orange\n") == 0);
 }
 
 
