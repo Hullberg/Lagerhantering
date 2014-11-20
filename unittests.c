@@ -14,14 +14,9 @@ int clean_suite_1(void)
   return 0;
 }
 
-// Empty database initialized
-
-
-
 
 void testLAGER_equalProducts(void)
 {
-
   struct product_t product1;
   product1.name = "Apple";
   product1.description = "A fruit";
@@ -61,10 +56,7 @@ void testLAGER_addToDB(void)
 
   CU_ASSERT(equalProducts(db1->product[0], product1));
   CU_ASSERT(equalProducts(db1->product[1], product2));
-
 }
-
-void testLAGER_
 
 void testLAGER_equalDatabases(void)
 {
@@ -82,7 +74,6 @@ void testLAGER_equalDatabases(void)
   add_to_db(db2, product1);
 
   CU_ASSERT(equalDatabases(db1, db2) == true);
-
 }
 
 void testLAGER_positionOfProduct(void)
@@ -134,9 +125,16 @@ void testLAGER_placeExist(void)
 }
 
 
-void testLAGER_dbCopy(void){
+void testLAGER_dbCopy(void)
+{
   db_t db1 = malloc(sizeof(struct db_t));
   CU_ASSERT(equalDatabases(db_copy(db1), db1));
+}
+
+void testLAGER_add(void) 
+{
+  // Read input from a file, and sort it in order for where the questions are asked. Then assert if the result is like we want it. Called addtest.input, located in lagerhantering
+  return 0;
 }
 
 
@@ -157,13 +155,13 @@ int main()
     }
 
   /* add the tests to the suites */
-  if ((NULL == CU_add_test(pSuite1, "test of lager_equalProducts()", testLAGER_equalProducts)) ||
+  if (
+      (NULL == CU_add_test(pSuite1, "test of lager_equalProducts()", testLAGER_equalProducts)) ||
+      (NULL == CU_add_test(pSuite1, "test of lager_addToDB()", testLAGER_addToDB)) ||
+      (NULL == CU_add_test(pSuite1, "test of lager_equalDatabases()", testLAGER_equalDatabases)) ||
       (NULL == CU_add_test(pSuite1, "test of lager_positionOfProduct()", testLAGER_positionOfProduct)) ||
       (NULL == CU_add_test(pSuite1, "test of lager_placeExist()", testLAGER_placeExist)) ||
-      (NULL == CU_add_test(pSuite1, "test of lager_dbCopy()", testLAGER_dbCopy)) ||
-      (NULL == CU_add_test(pSuite1, "test of lager_addToDB()", testLAGER_addToDB)) ||
-      (NULL == CU_add_test(pSuite1, "test of lager_equalDatabases()", testLAGER_equalDatabases))
-      
+      (NULL == CU_add_test(pSuite1, "test of lager_dbCopy()", testLAGER_dbCopy))
       )
     {
       CU_cleanup_registry();
