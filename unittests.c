@@ -131,10 +131,14 @@ void testLAGER_dbCopy(void)
   CU_ASSERT(equalDatabases(db_copy(db1), db1));
 }
 
-void testLAGER_add(void) 
+void testLAGER_scenario(void) 
 {
-  // Read input from a file, and sort it in order for where the questions are asked. Then assert if the result is like we want it. Called addtest.input, located in lagerhantering
-  return 0;
+  db_t db1 = malloc(sizeof(struct db_t));
+  add_item(db1);
+  CU_ASSERT(positionOfProduct(db1, Apple) == 0);
+  CU_ASSERT(placeExist(db1, A01) == 0);
+  edit_item(db1);
+  CU_ASSERT(placeExist(db1, B3) == 0);
 }
 
 
@@ -161,7 +165,8 @@ int main()
       (NULL == CU_add_test(pSuite1, "test of lager_equalDatabases()", testLAGER_equalDatabases)) ||
       (NULL == CU_add_test(pSuite1, "test of lager_positionOfProduct()", testLAGER_positionOfProduct)) ||
       (NULL == CU_add_test(pSuite1, "test of lager_placeExist()", testLAGER_placeExist)) ||
-      (NULL == CU_add_test(pSuite1, "test of lager_dbCopy()", testLAGER_dbCopy))
+      (NULL == CU_add_test(pSuite1, "test of lager_dbCopy()", testLAGER_dbCopy)) ||
+      (NULL == CU_add_test(pSuite1, "test of lager_addItem()", testLAGER_addItem))
       )
     {
       CU_cleanup_registry();
