@@ -22,7 +22,9 @@ struct product_t {
   int amount;
 };
 
-// Amount of products, each product has its own index.
+/**
+Amount of products, each product has its own index.
+ */
 struct db_t {
   struct product_t* product;
   int amount;
