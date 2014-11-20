@@ -135,10 +135,10 @@ void testLAGER_scenario(void)
 {
   db_t db1 = malloc(sizeof(struct db_t));
   add_item(db1);
-  CU_ASSERT(positionOfProduct(db1, Apple) == 0);
-  CU_ASSERT(placeExist(db1, A01) == 0);
+  CU_ASSERT(positionOfProduct(db1, 'Apple') == 0);
+  CU_ASSERT(placeExist(db1, 'A01') == 0);
   edit_item(db1);
-  CU_ASSERT(placeExist(db1, B3) == 0);
+  CU_ASSERT(placeExist(db1, 'B3') == 0);
 }
 
 
@@ -166,7 +166,7 @@ int main()
       (NULL == CU_add_test(pSuite1, "test of lager_positionOfProduct()", testLAGER_positionOfProduct)) ||
       (NULL == CU_add_test(pSuite1, "test of lager_placeExist()", testLAGER_placeExist)) ||
       (NULL == CU_add_test(pSuite1, "test of lager_dbCopy()", testLAGER_dbCopy)) ||
-      (NULL == CU_add_test(pSuite1, "test of lager_addItem()", testLAGER_addItem))
+      (NULL == CU_add_test(pSuite1, "test of lager_scenario()", testLAGER_scenario))
       )
     {
       CU_cleanup_registry();
