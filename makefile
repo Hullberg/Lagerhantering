@@ -1,19 +1,22 @@
 # Makefil för abstraktionsuppgiften
 # Shortcuts:
 CC = gcc
-CFLAGS = -g -Wall -std=c99
+CFLAGS = -g -Wall -std=c99 -ggdb
 
 
 # MAIN FILE
-lager: lagerhantering.c
-	$(CC) $(CFLAGS) lagerhantering.c -o lager
+lager: 	lagerhantering.c
+	$(CC) $(CFLAGS) lagerhantering.c -c
+
+lagermain: lagermain.c lagerhantering.c
+	$(CC) $(CFLAGS) lagerhantering.c lagermain.c -o lager
 
 .PHONY: clean run tests
 
 clean:
 	rm -f lager
 
-run: lager
+run: lagermain
 	./lager
 
 lagerhantering.o: lagerhantering.c lagerhantering.h
@@ -23,4 +26,4 @@ tests: lagerhantering.o unittests.c
 	$(CC) $(CFLAGS) unittests.c lagerhantering.o -o tests -lcunit
 
 test : tests
-	./tests
+	cat test.input | ./tests

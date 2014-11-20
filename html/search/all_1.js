@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['product_5ft',['product_t',['../structproduct__t.html',1,'']]]
+  ['db_5ft',['db_t',['../structdb__t.html',1,'']]]
 ];
