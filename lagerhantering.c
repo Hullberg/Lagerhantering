@@ -9,6 +9,8 @@
 
 /**
 @file lagerhantering.c
+@author Rebecca Oskarsson and Johan Hullberg
+@brief A file consisting of the functions needed to add, change, remove etc. a file in a database aka inventory.
  */
 /*
 // Example: place A25
@@ -35,7 +37,9 @@ struct db_t {
 
 typedef struct db_t* db_t;
 
-// Prints the welcome-screen.
+/**
+Prints the welcome-screen.
+ */
 void printMenu() {
   puts("\nWelcome to the Warehouse-Inventory 2.0");
   puts("============================");
@@ -46,7 +50,9 @@ void printMenu() {
   puts("[P]rint the whole inventory");
   puts("[Q]uit\n");
 }
-
+/**
+Prints the choices.
+ */
 void printEdit(){
   puts("\n[N]ame");
   puts("[D]escription");
@@ -55,14 +61,18 @@ void printEdit(){
   puts("[A]mount");
   
 }
-
+/**
+Return true if the two given products are exactly the same.
+ */
 bool equalProducts(struct product_t p1, struct product_t p2){
   if((p1.name == p2.name) && (p1.description == p2.description) && (p1.place == p2.place) && (p1.price == p2.price) && (p1.amount == p2.amount)){
     return true;
   }
   else return false;
 }
-
+/**
+Returns true if the two given databases are exactly the same.
+ */
 bool equalDatabases(db_t db1, db_t db2) {
   if (db1->amount == db2->amount) {
     int i = 0;
@@ -78,7 +88,9 @@ bool equalDatabases(db_t db1, db_t db2) {
   else return false;
 }
 
-// Asks the user to enter a valid string for the desired label of the product.
+/**
+Asks the user to enter a valid string for the desired label of the product.
+ */
 char* ask_string_question(char* question) {
   printf("A string suited for the current label, %s: ", question);
   char buffer[128];
@@ -87,7 +99,9 @@ char* ask_string_question(char* question) {
   return reply;
 }
 
-// Asks the user a question, and returns the answer as a char.
+/**
+Asks the user a question, and returns the answer as a char.
+ */
 char* whatName(char* question) {
   printf("Enter the name of the product to %s: ", question);
   char buffer[128];
@@ -96,7 +110,9 @@ char* whatName(char* question) {
   return reply;
 }
 
-// Asks the user to name a number.
+/**
+Asks the user to name a number.
+ */
 int ask_int_question (char* question) {
   printf("%s, a reasonable digit: ", question);
   int reply = 0;
@@ -124,11 +140,16 @@ char ask_char_question (char* question, char* alternative) {
     printf("Invalid answer, try [%s]\n", alternative);
   }
 }
-
+/**
+Prints the given product.
+ */
 void print_item (struct product_t product) {
   printf("\nName: %sDescription: %sPlace: %sPrice: %d\nAmount: %d\n\n", product.name, product.description, product.place, product.price, product.amount);
 }
 
+/**
+Adds the given product to the given database.
+ */
 void add_to_db (db_t db, struct product_t product) {
   db->amount++;
   if (db->amount == 1){
@@ -140,7 +161,9 @@ void add_to_db (db_t db, struct product_t product) {
     db->product[db->amount-1] = product;
   }
 }
-
+/**
+Gives the position of the product with the given name in the given databse.
+ */
 int positionOfProduct(db_t db, char* name1) {
   int n = (db->amount)-1;
   for (int i = 0; i <= n; i++) {
@@ -150,7 +173,9 @@ int positionOfProduct(db_t db, char* name1) {
   }
   return -1;
 }
-
+/**
+Returns the place in the database where the product with the given name is placed. 
+ */
 int placeExist(db_t db, char* place1){
  int n = (db->amount)-1;
   for (int i = 0; i <= n; i++) {
@@ -161,7 +186,9 @@ int placeExist(db_t db, char* place1){
   return -1;
 }
 
-// Adds an item to the inventory.
+/**
+Adds an item to the inventory.
+ */
 void add_item (db_t db) {
   struct product_t product;
   product.name = ask_string_question("Name");
@@ -201,7 +228,9 @@ void add_item (db_t db) {
   }
 }
 
-// Remove an item from the inventory
+/**
+Remove an item from the inventory
+ */
 void remove_item (db_t db) {
   char* reply = whatName("remove");
   if (positionOfProduct(db, reply) == -1) {
@@ -224,7 +253,9 @@ void remove_item (db_t db) {
   }
 }
 
-
+/**
+Edit an item from the given inventory.
+ */
 void edit_item(db_t db){
   if (db->amount == 0) {
     puts("There are no items in the database to edit!");
@@ -293,7 +324,9 @@ void edit_item(db_t db){
     free(reply);
   }
 }
-
+/**
+Frees the whole memoryspace connected to the given inventory.
+ */
 void free_db(db_t db){
   if (db != NULL) {
     for(int i = 0; i < db->amount; i++){
@@ -306,6 +339,9 @@ void free_db(db_t db){
   free(db);
 }
 
+/**
+Returns a copy of the given inventory.
+ */
 db_t db_copy(db_t db){
   db_t newDb = malloc(sizeof(struct db_t));
   newDb->amount = db->amount;
@@ -320,6 +356,9 @@ db_t db_copy(db_t db){
   return newDb;
 }
 
+/**
+Prints out the given database.
+ */
 void print_db(db_t db) {
   char* reply = "n";
   if (db->amount == 0) {
