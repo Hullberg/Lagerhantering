@@ -14,7 +14,7 @@ lagermain: lagermain.c lagerhantering.c
 .PHONY: clean run tests
 
 clean:
-	rm -f lager
+	rm -f lager *.o
 
 run: lagermain
 	./lager
