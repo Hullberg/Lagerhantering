@@ -364,13 +364,14 @@ Prints out the given database.
  */
 void print_db(db_t db) {
   char* reply = "n";
-  if (db->amount == 0) {
+  if (db->amount < 0) {
     puts("The database is empty.\n");
   }
   else {
     int* n = &db->amount;
-    for(int i = 0; i < *n; i++){
-      if(db->product[i].name == NULL){	
+    for(int i = 0; i <= *n; i++){
+      if(&db->product[i] == NULL){
+	puts("oops!");
       }
       else if (&db->product[i] != NULL){
 	printf("%d %s", i+1, db->product[i].name);
