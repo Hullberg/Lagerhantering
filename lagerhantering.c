@@ -331,7 +331,7 @@ void edit_item(db_t db){
 Frees the whole memoryspace connected to the given inventory.
  */
 void free_db(db_t db){
-  if (db != NULL && db->amount > -1) {
+  if (db != NULL && db->amount > 0) {
     for(int i = 0; i < db->amount; i++){
       free(db->product[i].name);
       free(db->product[i].description);
@@ -364,12 +364,12 @@ Prints out the given database.
  */
 void print_db(db_t db) {
   char* reply = "n";
-  if (db->amount < 0) {
+  if (db->amount == 0) {
     puts("The database is empty.\n");
   }
   else {
     int* n = &db->amount;
-    for(int i = 0; i <= *n; i++){
+    for(int i = 0; i < *n; i++){
       if(&db->product[i] == NULL){
 	puts("oops!");
       }
