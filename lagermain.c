@@ -14,6 +14,7 @@ The main function which runs the program and calls funcitons from the headerfile
 int main() {
   bool should_continue = true;
   db_t db1 = malloc(sizeof(struct db_t));
+  db_t->amount = -1;
   db_t backup;
   while (should_continue) { 
     printMenu();
