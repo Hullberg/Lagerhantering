@@ -251,8 +251,9 @@ void remove_item (db_t db) {
     }
     db->amount--;
     puts("The product has been removed.\n");
-    free(reply);
+   
   }
+ free(reply);
 }
 
 /**
