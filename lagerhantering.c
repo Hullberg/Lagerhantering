@@ -282,7 +282,7 @@ void edit_item(db_t db){
 	  free(db->product->name);
 	  db->product->name = edited;
 	}
-	free(edited);
+	//free(edited);
 	break;
 	
       case 'd':
