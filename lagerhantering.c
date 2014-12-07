@@ -253,7 +253,7 @@ void remove_item (db_t db) {
     puts("The product has been removed.\n");
    
   }
- free(reply);
+  //free(reply);
 }
 
 /**
@@ -371,7 +371,6 @@ void print_db(db_t db) {
     int* n = &db->amount;
     for(int i = 0; i < *n; i++){
       if(&db->product[i] == NULL){
-	puts("oops!");
       }
       else if (&db->product[i] != NULL){
 	printf("%d %s", i+1, db->product[i].name);
