@@ -16,11 +16,13 @@ int main() {
   db_t db1 = malloc(sizeof(struct db_t));
   db1->amount = 0;
   db_t backup;
+  int i = 0;
   while (should_continue) { 
     printMenu();
     switch (ask_char_question("What do you want to do?", "AaRrEeUuPpQq")){
       // Add
     case 'a':
+      i++;
       puts("You chose 'Add'");
       free_db(backup);
       backup = db_copy(db1);
@@ -29,6 +31,7 @@ int main() {
 
       // Remove
     case 'r':
+      i++;
       puts("You chose 'Remove'");
       free_db(backup);
       backup = db_copy(db1);
@@ -37,6 +40,7 @@ int main() {
       
       // Edit
     case 'e':
+      i++;
       puts("You chose 'Edit'");
       free_db(backup);
       backup = db_copy(db1);
@@ -45,6 +49,7 @@ int main() {
       
       // Undo
     case 'u':
+      i++;
       puts("You chose 'Undo'");
       free_db(db1);
       db1 = db_copy(backup);
@@ -62,7 +67,11 @@ int main() {
       if (ask_char_question("Do you wish to exit the programme?", "YyNn") == 'y') {
 	puts("Goodbye!");
 	should_continue  = false;
-	if(db1 != NULL){
+	free_db(db1);
+	if(i > 0){
+	  free_db(backup);
+	}
+	/*	if(db1 != NULL){
 	free_db(db1);
 	}
 	else
@@ -72,8 +81,8 @@ int main() {
 	  }
 	else if(backup == NULL){
 	  free(backup);
-	} 
-      }
+	  }*/ 
+	}
       break;
     default:
       puts("Did not enter any valid command, please try again.\n");
