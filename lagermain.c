@@ -22,37 +22,45 @@ int main() {
     switch (ask_char_question("What do you want to do?", "AaRrEeUuPpQq")){
       // Add
     case 'a':
-      i++;
       puts("You chose 'Add'");
+      if (i > 0){
       free_db(backup);
+      }
       backup = db_copy(db1);
+      i++;
       add_item(db1);
       break;
 
       // Remove
     case 'r':
-      i++;
       puts("You chose 'Remove'");
+      if(i>0){
       free_db(backup);
+      }     
       backup = db_copy(db1);
+      i++;
       remove_item(db1);
       break;
       
       // Edit
     case 'e':
-      i++;
       puts("You chose 'Edit'");
+      if (i>0){
       free_db(backup);
+      }
       backup = db_copy(db1);
+      i++;
       edit_item(db1);
       break;
       
       // Undo
     case 'u':
-      i++;
       puts("You chose 'Undo'");
+      if(i>0){
       free_db(db1);
-      db1 = db_copy(backup);
+      } 
+     db1 = db_copy(backup);
+      i++;
       // backup = db_copy(db1);
       break;
       
