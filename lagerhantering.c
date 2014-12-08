@@ -35,6 +35,7 @@ struct db_t {
   int amount;
 };
 
+
 typedef struct db_t* db_t;
 
 /**
@@ -253,7 +254,7 @@ void remove_item (db_t db) {
     puts("The product has been removed.\n");
    
   }
-  //free(reply);
+  free(reply);
 }
 
 /**
@@ -281,8 +282,9 @@ void edit_item(db_t db){
 	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
 	  free(db->product->name);
 	  db->product->name = edited;
+	}else{
+	  free(edited);
 	}
-	free(edited);
 	break;
 	
       case 'd':
@@ -291,8 +293,9 @@ void edit_item(db_t db){
 	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
 	  free(db->product->description);
 	  db->product->description = edited;
+	}else{
+	  free(edited);
 	}
-	free(edited);
 	break;
       
       case 'p':
@@ -301,8 +304,9 @@ void edit_item(db_t db){
 	if (ask_char_question("Are you sure?", "YyNn") == 'y') {
 	  free(db->product->place);
 	  db->product->place = edited;
+	}else{
+	  free(edited);
 	}
-	free(edited);
 	break;
 	
       case 'r':
