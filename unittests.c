@@ -151,7 +151,7 @@ void testLAGER_scenario(void)
   edit_item(db1);
   CU_ASSERT(db1->product[0].amount == 5);
   edit_item(db1);
-  CU_ASSERT(positionofProduct(db1, "Orange\n") == 0);
+  CU_ASSERT(positionOfProduct(db1, "Orange\n") == 0);
   remove_item(db1);
   CU_ASSERT(positionOfProduct(db1, "Orange\n") == -1);
 }
