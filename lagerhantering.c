@@ -335,15 +335,15 @@ void edit_item(db_t db){
 Frees the whole memoryspace connected to the given inventory.
  */
 void free_db(db_t db){
-  if (db != NULL && db->amount > 0) {
+  if (db != NULL) {
     for(int i = 0; i < db->amount; i++){
       free(db->product[i].name);
       free(db->product[i].description);
       free(db->product[i].place);   
     }
     free(db->product);
+    free(db);
   }
-  free(db);
 }
 
 /**
