@@ -144,10 +144,16 @@ void testLAGER_scenario(void)
   CU_ASSERT(placeExist(db1, "A01\n") == 0);
   edit_item(db1);
   CU_ASSERT(placeExist(db1, "B3\n") == 0);
+  edit_item(db1);
+  CU_ASSERT(db1->product[0].description == "A round ripe fruit\n");
+  edit_item(db1);
+  CU_ASSERT(db1->product[0].price == 2);
+  edit_item(db1);
+  CU_ASSERT(db1->product[0].amount == 5);
+  edit_item(db1);
+  CU_ASSERT(positionofProduct(db1, "Orange\n") == 0);
   remove_item(db1);
-  CU_ASSERT(positionOfProduct(db1, "Apple\n") == -1);
-  add_item(db1);
-  CU_ASSERT(positionOfProduct(db1, "Orange\n") == 0);
+  CU_ASSERT(positionOfProduct(db1, "Orange\n") == -1);
 }
 
 
