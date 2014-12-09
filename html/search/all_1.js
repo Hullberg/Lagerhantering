@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['db_5fcopy',['db_copy',['../lagerhantering_8c.html#a2fe85e76b89e88f0f4d4d9fb9a2668eb',1,'lagerhantering.c']]],
-  ['db_5ft',['db_t',['../structdb__t.html',1,'']]]
+  ['clean_5fsuite_5f1',['clean_suite_1',['../unittests_8c.html#aefc712c7108e1b77486a6a9ffb587191',1,'unittests.c']]]
 ];

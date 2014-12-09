@@ -10,7 +10,8 @@
 
 /**
 @file lagerhantering.h
-@author Rebecca Oskarsson and Johan Hullberg
+@author Johan Hullberg
+@author Rebecca Oskarsson
 @brief Header file containing the typedefinitions of structures and funktions.
  */
 

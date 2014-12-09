@@ -4,12 +4,14 @@
 
 /**
 @file lagermain.c
-@author Rebecca Oskarsson and Johan Hullberg
+@author Johan Hullberg
+@author  Rebecca Oskarsson
 @brief Creates an databases and ask the user what she would like to do.
  */
 
 /**
-The main function which runs the program and calls funcitons from the headerfile lagerhantering.h
+@brief Runs the program and calls funcitons from the headerfile lagerhantering.h
+@return always 0
  */
 int main() {
   bool should_continue = true;

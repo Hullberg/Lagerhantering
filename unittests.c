@@ -3,18 +3,33 @@
 #include <CUnit/CUnit.h>
 #include <stdlib.h>
 #include "lagerhantering.h"
-
+/**
+@file unittests.c
+@author Johan Hullberg
+@author Rebecca Oskarsson
+@brief Tests for Lagerhanteraren
+ */
+/**
+@brief Initialies suite 1
+@return always 0
+ */
 int init_suite_1(void)
 {
   return 0;
 }
 
+/**
+@brief Cleans suite 1
+@return always 0
+ */
 int clean_suite_1(void)
 {
   return 0;
 }
 
-
+/**
+@brief Tests the funcion equalProducts
+ */
 void testLAGER_equalProducts(void)
 {
   struct product_t product1;
@@ -33,7 +48,9 @@ void testLAGER_equalProducts(void)
   CU_ASSERT(equalProducts(product1, product1) == true);
   CU_ASSERT(equalProducts(product1, product2) == false);
 }
-
+/**
+@brief Tests the function add_to_db
+ */
 void testLAGER_addToDB(void) 
 {
   db_t db1 = malloc(sizeof(struct db_t));
@@ -57,7 +74,9 @@ void testLAGER_addToDB(void)
   CU_ASSERT(equalProducts(db1->product[0], product1));
   CU_ASSERT(equalProducts(db1->product[1], product2));
 }
-
+/**
+@brief Tests the funcion equalDatabases
+ */
 void testLAGER_equalDatabases(void)
 {
   db_t db1 = malloc(sizeof(struct db_t));
@@ -75,7 +94,9 @@ void testLAGER_equalDatabases(void)
 
   CU_ASSERT(equalDatabases(db1, db2) == true);
 }
-
+/**
+@brief Tests the function positionOfProduct
+ */
 void testLAGER_positionOfProduct(void)
 {
   db_t db1 = malloc(sizeof(struct db_t));
@@ -99,7 +120,9 @@ void testLAGER_positionOfProduct(void)
   CU_ASSERT(positionOfProduct(db1, product1.name) == 0);
   CU_ASSERT(positionOfProduct(db1, product2.name) == 1);
 }
-
+/**
+@brief Tests the function placeExist
+ */
 void testLAGER_placeExist(void)
 {
   db_t db1 = malloc(sizeof(struct db_t));
@@ -124,39 +147,10 @@ void testLAGER_placeExist(void)
   CU_ASSERT(placeExist(db1, product2.place) == 1);
 }
 
-
-void testLAGER_dbCopy(void)
-{
-  db_t db1 = malloc(sizeof(struct db_t));
-  CU_ASSERT(equalDatabases(db_copy(db1), db1));
-}
-
-void testLAGER_scenario(void) 
-{
-  db_t db1 = malloc(sizeof(struct db_t));
-  add_item(db1);
-  printf("%d\n", db1->amount);
-  printf("%d\n",(positionOfProduct(db1, "Apple\n")));
-  printf("%d\n", placeExist(db1, "A01\n"));
-  printf("%s\n", db1->product[0].name);
-  printf("%s\n", db1->product[0].place);
-  CU_ASSERT(positionOfProduct(db1, "Apple\n") == 0);
-  CU_ASSERT(placeExist(db1, "A01\n") == 0);
-  edit_item(db1);
-  CU_ASSERT(placeExist(db1, "B3\n") == 0);
-  edit_item(db1);
-  CU_ASSERT(db1->product[0].description == "A round ripe fruit\n");
-  edit_item(db1);
-  CU_ASSERT(db1->product[0].price == 2);
-  edit_item(db1);
-  CU_ASSERT(db1->product[0].amount == 5);
-  edit_item(db1);
-  CU_ASSERT(positionOfProduct(db1, "Orange\n") == 0);
-  remove_item(db1);
-  CU_ASSERT(positionOfProduct(db1, "Orange\n") == -1);
-}
-
-
+/**
+@brief Main function that runs the tests functions
+@return error if it occurs
+ */
 int main()
 {
   CU_pSuite pSuite1 = NULL;

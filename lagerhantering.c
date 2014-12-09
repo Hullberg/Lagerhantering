@@ -9,7 +9,8 @@
 
 /**
 @file lagerhantering.c
-@author Rebecca Oskarsson and Johan Hullberg
+@author Johan Hullberg
+@author Rebecca Oskarsson
 @brief A file consisting of the functions needed to add, change, remove etc. a file in a database aka inventory.
  */
 /*
@@ -18,7 +19,9 @@ struct place_t{
 char shelf;
 int number;
 };*/
-
+/**
+@brief A product with a name, description, place, price and amount
+ */
 struct product_t {
   char* name;
   char* description;
@@ -28,7 +31,7 @@ struct product_t {
 };
 
 /**
-Amount of products, each product has its own index.
+@brief Amount of products, each product has its own index.
  */
 struct db_t {
   struct product_t* product;
@@ -39,7 +42,7 @@ struct db_t {
 typedef struct db_t* db_t;
 
 /**
-Prints the welcome-screen.
+@brief Prints the welcome-screen.
  */
 void printMenu() {
   puts("\nWelcome to the Warehouse-Inventory 2.0");
@@ -52,7 +55,7 @@ void printMenu() {
   puts("[Q]uit\n");
 }
 /**
-Prints the choices.
+@brief Prints the choices.
  */
 void printEdit(){
   puts("\n[N]ame");
@@ -63,9 +66,10 @@ void printEdit(){
   
 }
 /**
-@parameter p1 the first product
-@parameter p2 the second product
-Return true if the two given products are exactly the same.
+@brief Return true if the two given products are equal.
+@param p1 the first product to compare
+@param p2 the second product compare
+@return boolean wether the given products are equal or not.
  */
 bool equalProducts(struct product_t p1, struct product_t p2){
   if((p1.name == p2.name) && (p1.description == p2.description) && (p1.place == p2.place) && (p1.price == p2.price) && (p1.amount == p2.amount)){
@@ -74,7 +78,10 @@ bool equalProducts(struct product_t p1, struct product_t p2){
   else return false;
 }
 /**
-Returns true if the two given databases are exactly the same.
+@brief Returns true if the two given databases are equal.
+@param db1 the first database to compare
+@param db2 the second databse to compare
+@return boolean wether the given databases are equal or not
  */
 bool equalDatabases(db_t db1, db_t db2) {
   if (db1->amount == db2->amount) {
@@ -92,7 +99,9 @@ bool equalDatabases(db_t db1, db_t db2) {
 }
 
 /**
-Asks the user to enter a valid string for the desired label of the product.
+@brief Asks the user to enter a valid string for the desired label of the product.
+@param question what label the user should name
+@return the name that the user gave to the given label
  */
 char* ask_string_question(char* question) {
   printf("A string suited for the current label, %s: ", question);
@@ -103,7 +112,9 @@ char* ask_string_question(char* question) {
 }
 
 /**
-Asks the user a question, and returns the answer as a char.
+@brief Asks the user a question, and returns the answer as a char.
+@param question the action the user chose to do to a product
+@return the name of the product the user gave
  */
 char* whatName(char* question) {
   printf("Enter the name of the product to %s: ", question);
@@ -114,7 +125,9 @@ char* whatName(char* question) {
 }
 
 /**
-Asks the user to name a number.
+@brief Asks the user to name a number.
+@param question the kind of digit the user should give
+@return the integer the user gave
  */
 int ask_int_question (char* question) {
   printf("%s, a reasonable digit: ", question);
@@ -130,7 +143,10 @@ int ask_int_question (char* question) {
 }
 
 /**
-Asks a question that can be answered with a string.
+@brief Asks a question that can be answered with a string.
+@param question a question the user should answer
+@param alternative the alternatives the user should get
+@return the answer the user gave as a lowercase letter
  */
 char ask_char_question (char* question, char* alternative) {
   printf("%s [%s]\n", question, alternative);
@@ -144,14 +160,17 @@ char ask_char_question (char* question, char* alternative) {
   }
 }
 /**
-Prints the given product.
+@brief Prints the given product.
+@param product the product to print
  */
 void print_item (struct product_t product) {
   printf("\nName: %sDescription: %sPlace: %sPrice: %d\nAmount: %d\n\n", product.name, product.description, product.place, product.price, product.amount);
 }
 
 /**
-Adds the given product to the given database.
+@brief Adds the given product to the given database.
+@param db the database to add the product in
+@param product the product to put into the database
  */
 void add_to_db (db_t db, struct product_t product) {
   db->amount++;
@@ -165,7 +184,10 @@ void add_to_db (db_t db, struct product_t product) {
   }
 }
 /**
-Gives the position of the product with the given name in the given databse.
+@brief Gives the position of the product with the given name in the given databse.
+@param db the database to search through
+@param name1 the name of a product to look for in the database
+@return the position of the product with the given name in the database or -1 if no product has the given name
  */
 int positionOfProduct(db_t db, char* name1) {
   int n = (db->amount)-1;
@@ -177,7 +199,10 @@ int positionOfProduct(db_t db, char* name1) {
   return -1;
 }
 /**
-Returns the place in the database where the product with the given name is placed. 
+@brief Returns the place in the database where the product with the given name is placed.
+@param db the database to search through
+@param place1 the place to look for in the given database
+@return the position of the product at the given place in the database or -1 if the place is available
  */
 int placeExist(db_t db, char* place1){
  int n = (db->amount)-1;
@@ -190,7 +215,8 @@ int placeExist(db_t db, char* place1){
 }
 
 /**
-Adds an item to the inventory.
+@brief Adds an item to the inventory.
+@param db the databse where a pontentially product should be put into
  */
 void add_item (db_t db) {
   struct product_t product;
@@ -232,7 +258,8 @@ void add_item (db_t db) {
 }
 
 /**
-Remove an item from the inventory
+@brief Remove an item from the inventory
+@param db the database to remove a product from
  */
 void remove_item (db_t db) {
   char* reply = whatName("remove");
@@ -258,7 +285,8 @@ void remove_item (db_t db) {
 }
 
 /**
-Edit an item from the given inventory.
+@brief Edit an item from the given inventory.
+@param db the database to edit a product from
  */
 void edit_item(db_t db){
   if (db->amount == 0) {
@@ -332,7 +360,8 @@ void edit_item(db_t db){
   }
 }
 /**
-Frees the whole memoryspace connected to the given inventory.
+@brief Frees the whole memoryspace connected to the given inventory.
+@param db the database to be freed
  */
 void free_db(db_t db){
   if (db != NULL) {
@@ -347,7 +376,9 @@ void free_db(db_t db){
 }
 
 /**
-Returns a copy of the given inventory.
+@brief Returns a copy of the given inventory.
+@param db the database to make a copy of
+@return a copy of the given database
  */
 db_t db_copy(db_t db){
   db_t newDb = malloc(sizeof(struct db_t));
@@ -364,7 +395,8 @@ db_t db_copy(db_t db){
 }
 
 /**
-Prints out the given database.
+@brief Prints out the given database.
+@param db the database to print
  */
 void print_db(db_t db) {
   char* reply = "n";
