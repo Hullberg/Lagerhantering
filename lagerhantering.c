@@ -44,7 +44,7 @@ typedef struct db_t* db_t;
 /**
 @brief Prints the welcome-screen.
  */
-void printMenu() {
+void print_menu() {
   puts("\nWelcome to the Warehouse-Inventory 2.0");
   puts("============================");
   puts("[A]dd a product to the inventory");
@@ -57,7 +57,7 @@ void printMenu() {
 /**
 @brief Prints the choices.
  */
-void printEdit(){
+void print_edit(){
   puts("\n[N]ame");
   puts("[D]escription");
   puts("[P]lace");
@@ -71,7 +71,7 @@ void printEdit(){
 @param p2 the second product compare
 @return boolean wether the given products are equal or not.
  */
-bool equalProducts(struct product_t p1, struct product_t p2){
+bool equal_products(struct product_t p1, struct product_t p2){
   if((p1.name == p2.name) && (p1.description == p2.description) && (p1.place == p2.place) && (p1.price == p2.price) && (p1.amount == p2.amount)){
     return true;
   }
@@ -83,7 +83,7 @@ bool equalProducts(struct product_t p1, struct product_t p2){
 @param db2 the second databse to compare
 @return boolean wether the given databases are equal or not
  */
-bool equalDatabases(db_t db1, db_t db2) {
+bool equal_databases(db_t db1, db_t db2) {
   if (db1->amount == db2->amount) {
     int i = 0;
     bool stop = true;
@@ -116,7 +116,7 @@ char* ask_string_question(char* question) {
 @param question the action the user chose to do to a product
 @return the name of the product the user gave
  */
-char* whatName(char* question) {
+char* what_name(char* question) {
   printf("Enter the name of the product to %s: ", question);
   char buffer[128];
   fgets(buffer, 128, stdin);
@@ -189,7 +189,7 @@ void add_to_db (db_t db, struct product_t product) {
 @param name1 the name of a product to look for in the database
 @return the position of the product with the given name in the database or -1 if no product has the given name
  */
-int positionOfProduct(db_t db, char* name1) {
+int position_of_product(db_t db, char* name1) {
   int n = (db->amount)-1;
   for (int i = 0; i <= n; i++) {
     if (strcmp(name1, db->product[i].name) == 0){
@@ -204,7 +204,7 @@ int positionOfProduct(db_t db, char* name1) {
 @param place1 the place to look for in the given database
 @return the position of the product at the given place in the database or -1 if the place is available
  */
-int placeExist(db_t db, char* place1){
+int place_exist(db_t db, char* place1){
  int n = (db->amount)-1;
   for (int i = 0; i <= n; i++) {
     if (strcmp(place1, db->product[i].place) == 0){

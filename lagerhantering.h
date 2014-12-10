@@ -31,93 +31,127 @@ struct db_t {
 typedef struct db_t* db_t;
 
 /**
-Prints the main screen
+@brief Prints the welcome-screen.
  */
-void printMenu();
+void print_menu();
 
 /**
-Prints the 'edit-screen'
+@brief Prints the choices.
  */
-void printEdit();
+void print_edit();
+
 
 /**
-Asks the user a question and returns the answer (string)
+@brief Asks the user to enter a valid string for the desired label of the product.
+@param question what label the user should name
+@return the name that the user gave to the given label
  */
 char* ask_string_question(char* question);
 
 /**
-Same as above, but for different purpose.
+@brief Asks the user a question, and returns the answer as a char.
+@param question the action the user chose to do to a product
+@return the name of the product the user gave
  */
-char* whatName(char* question);
+char* what_name(char* question);
 
 /**
-Asks the user a question and returns the answer (digit)
+@brief Asks the user to name a number.
+@param question the kind of digit the user should give
+@return the integer the user gave
  */
 int ask_int_question(char* question);
 
 /**
-Asks the user a question with certain alternatives
+@brief Asks a question that can be answered with a string.
+@param question a question the user should answer
+@param alternative the alternatives the user should get
+@return the answer the user gave as a lowercase letter
  */
 char ask_char_question(char* question, char* alternative);
 
 /**
-Prints the information about the product
+@brief Prints the given product.
+@param product the product to print
  */
 void print_item(struct product_t product);
 
 /**
-Adds a product to a database
+@brief Adds the given product to the given database.
+@param db the database to add the product in
+@param product the product to put into the database
  */
 void add_to_db(db_t db, struct product_t product);
+}
 
 /**
-Returns an int that represents where in the database we can find the product with name name1
+@brief Gives the position of the product with the given name in the given databse.
+@param db the database to search through
+@param name1 the name of a product to look for in the database
+@return the position of the product with the given name in the database or -1 if no product has the given name
  */
-int positionOfProduct(db_t db, char* name1);
+int position_of_product(db_t db, char* name1);
 
 /**
-Returns an int that represents where in the database we can find the product at place place1
+@brief Returns the place in the database where the product with the given name is placed.
+@param db the database to search through
+@param place1 the place to look for in the given database
+@return the position of the product at the given place in the database or -1 if the place is available
  */
-int placeExist(db_t db, char* place1);
+int place_exist(db_t db, char* place1);
+
 /**
-Adds a product to the database, asks questions for the user to answer
+@brief Adds an item to the inventory.
+@param db the databse where a pontentially product should be put into
  */
 void add_item(db_t db);
 
 /**
-Removes an item from the database, depending on input from user
+@brief Remove an item from the inventory
+@param db the database to remove a product from
  */
 void remove_item(db_t db);
 
 /**
-Edits the information about a product, depending on input
+@brief Edit an item from the given inventory.
+@param db the database to edit a product from
  */
 void edit_item(db_t db);
 
 /**
-Frees the allocated memory for a database
+@brief Frees the whole memoryspace connected to the given inventory.
+@param db the database to be freed
  */
 void free_db(db_t db);
 
 /**
-Creates a copy of a database, used for backup
+@brief Returns a copy of the given inventory.
+@param db the database to make a copy of
+@return a copy of the given database
  */
 db_t db_copy(db_t db);
 
 /**
-Prints out a list of the products in a database
+@brief Prints out the given database.
+@param db the database to print
  */
 void print_db(db_t db);
 
 /**
-Equality between products
+@brief Return true if the two given products are equal.
+@param p1 the first product to compare
+@param p2 the second product compare
+@return boolean wether the given products are equal or not.
  */
-bool equalProducts(struct product_t p1, struct product_t p2);
+bool equal_products(struct product_t p1, struct product_t p2);
 
 /**
-Equality between databases
+@brief Returns true if the two given databases are equal.
+@param db1 the first database to compare
+@param db2 the second databse to compare
+@return boolean wether the given databases are equal or not
  */
-bool equalDatabases(db_t db1, db_t db2);
+bool equal_databases(db_t db1, db_t db2);
 
 /**
 Runs the program
