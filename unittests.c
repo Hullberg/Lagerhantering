@@ -148,6 +148,36 @@ void testLAGER_placeExist(void)
 }
 
 /**
+@brief Tests the function dbCopy and looks if it is equal to the database it copies.
+*/
+void testLAGER_dbCopy(void) {
+  db_t db1 = malloc(sizeof(struct db_t));
+  CU_ASSERT(equalDatabases(db_copy(db1),db1));
+}
+
+/**
+@brief Tests the most crucial functions, like add, all varieties of edit before removing. Uses test.input as an automated user
+ */
+void testLAGER_scenario(void) {
+  db_t db1 = malloc(sizeof(struct db_t));
+  add_item(db1);
+  CU_ASSERT(positionOfProduct(db1, "Apple\n") == 0);
+  CU_ASSERT(placeExist(db1, "A01\n") == 0);
+  edit_item(db1);
+  CU_ASSERT(placeExist(db1, "B3\n") == 0);
+  edit_item(db1);
+  CU_ASSERT(strcmp(db1->product[0].description, "A round ripe fruit\n") == 0);
+  edit_item(db1);
+  CU_ASSERT(db1->product[0].price == 2);
+  edit_item(db1);
+  CU_ASSERT(db1->product[0].amount == 5);
+  edit_item(db1);
+  CU_ASSERT(positionOfProduct(db1, "Orange\n") == 0);
+  remove_item(db1);
+  CU_ASSERT(positionOfProduct(db1, "Orange\n") == -1);
+}
+
+/**
 @brief Main function that runs the tests functions
 @return error if it occurs
  */
