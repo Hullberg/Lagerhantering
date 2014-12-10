@@ -88,7 +88,7 @@ bool equal_databases(db_t db1, db_t db2) {
     int i = 0;
     bool stop = true;
     while (i < db1->amount && stop == true) {
-      if (equalProducts(db1->product[i], db2->product[i]) == false) {
+      if (equal_products(db1->product[i], db2->product[i]) == false) {
 	stop = false;
 	}
       i++;
@@ -221,14 +221,14 @@ int place_exist(db_t db, char* place1){
 void add_item (db_t db) {
   struct product_t product;
   product.name = ask_string_question("Name");
-  if (positionOfProduct(db, product.name) != -1){
+  if (position_of_product(db, product.name) != -1){
     puts("Product already exist");
   }
   else{
     product.description = ask_string_question("Description");
     char* reply = ask_string_question("Place");
     int i = 0;
-    while (placeExist(db, reply) != -1){
+    while (place_exist(db, reply) != -1){
       i++;
       if (i >= 3){
 	puts("REALLY dude?! Stop it! Enter another place, PLEASE!");
@@ -262,12 +262,12 @@ void add_item (db_t db) {
 @param db the database to remove a product from
  */
 void remove_item (db_t db) {
-  char* reply = whatName("remove");
-  if (positionOfProduct(db, reply) == -1) {
+  char* reply = what_name("remove");
+  if (position_of_product(db, reply) == -1) {
     puts("Product does not exist");
   }
   else{
-    int a = positionOfProduct(db, reply);
+    int a = position_of_product(db, reply);
     printf("The product is at database-index: %d\n", a+1);
     printf("You wish to remove the product: %s", db->product[a].name);
     free(db->product[a].name);
@@ -293,14 +293,14 @@ void edit_item(db_t db){
     puts("There are no items in the database to edit!");
   }
   else {
-    char* reply = whatName("edit");
-    if(positionOfProduct(db, reply) == -1){
+    char* reply = what_name("edit");
+    if(position_of_product(db, reply) == -1){
       puts("Product does not exist");
     }
     else {
-      int a = positionOfProduct(db, reply);
+      int a = position_of_product(db, reply);
       print_item(db->product[a]);
-      printEdit();
+      print_edit();
       char* edited;
       int answer;
       switch (ask_char_question("What do you want to edit?", "NnDdPpRrAa")){

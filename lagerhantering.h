@@ -82,7 +82,7 @@ void print_item(struct product_t product);
 @param product the product to put into the database
  */
 void add_to_db(db_t db, struct product_t product);
-}
+
 
 /**
 @brief Gives the position of the product with the given name in the given databse.

@@ -20,7 +20,7 @@ int main() {
   db_t backup;
   int i = 0;
   while (should_continue) { 
-    printMenu();
+    print_menu();
     switch (ask_char_question("What do you want to do?", "AaRrEeUuPpQq")){
       // Add
     case 'a':
