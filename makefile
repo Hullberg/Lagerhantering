@@ -1,7 +1,7 @@
 # Makefil för abstraktionsuppgiften
 # Shortcuts:
 CC = gcc
-CFLAGS = -g -Wall -std=c99 -ggdb -pg
+CFLAGS = -g -Wall -std=c99 -ggdb
 
 
 # MAIN FILE
