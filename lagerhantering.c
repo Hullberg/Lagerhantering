@@ -253,6 +253,7 @@ void add_item (db_t db) {
     }
     else {
       puts("The item was not added to the database.\n");
+      free(reply);
     }
   }
 }
