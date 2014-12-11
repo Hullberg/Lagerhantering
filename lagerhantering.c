@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include "lagerhantering.h"
 
 // valgrind --tool=memcheck --leak-check=full ./lager
 
@@ -19,9 +20,10 @@ struct place_t{
 char shelf;
 int number;
 };*/
+/*
 /**
 @brief A product with a name, description, place, price and amount
- */
+
 struct product_t {
   char* name;
   char* description;
@@ -32,14 +34,15 @@ struct product_t {
 
 /**
 @brief Amount of products, each product has its own index.
- */
+ 
 struct db_t {
   struct product_t* product;
   int amount;
 };
 
+*/
 
-typedef struct db_t* db_t;
+//typedef struct db_t* db_t;
 
 /**
 @brief Prints the welcome-screen.
